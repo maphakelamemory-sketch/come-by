@@ -1,667 +1,3677 @@
-<!doctype html>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0c0c0d">
-<title>COME BY</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-:root{--bg:#09090b;--card:#151519;--soft:#202027;--ink:#fff;--muted:#a1a1aa;--gold:#d7b46a;--line:#2b2b32}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}
-.app{max-width:540px;margin:auto;min-height:100vh;background:var(--bg)}
-header{position:sticky;top:0;z-index:10;padding:16px 18px;background:#09090dec;border-bottom:1px solid var(--line);backdrop-filter:blur(15px);display:flex;justify-content:space-between}
-.brand{font-weight:950;font-size:26px;letter-spacing:-1px}
-.gold{color:var(--gold)}
-main{padding:18px 16px 90px}
-.hero{padding:25px;border:1px solid #353039;border-radius:26px;background:radial-gradient(circle at top right,#40301b,#151519 48%);margin-bottom:15px}
-.hero h1{font-size:34px;line-height:1;margin:5px 0 12px}
-.muted{color:var(--muted)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;margin-bottom:13px}
-.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.choice button,.btn{border:1px solid var(--line);background:#19191f;color:#fff;border-radius:15px;padding:14px;font-weight:850}
-.choice button.active{border-color:var(--gold);background:#292216;color:var(--gold)}
-.btn{width:100%;background:var(--gold);color:#111;border:0}
-.btn.secondary{background:transparent;color:#fff;border:1px solid var(--line)}
-label{font-size:12px;font-weight:800;display:block;margin:10px 0 6px}
-input,textarea{width:100%;background:#0e0e12;color:#fff;border:1px solid var(--line);border-radius:13px;padding:12px}
-textarea{min-height:85px}
-.profilepic{width:74px;height:74px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
-.photos{display:flex;gap:8px;overflow:auto}
-.photos img{width:88px;height:88px;object-fit:cover;border-radius:14px}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:540px;width:100%;background:#111114;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px}
-.nav button{background:none;border:0;color:var(--muted);padding:8px;font-size:11px}
-.nav .active{color:var(--gold)}
-.tag{font-size:11px;color:var(--muted)}
-.row{display:flex;gap:12px;align-items:center}
-.grow{flex:1}
-.pill{display:inline-block;border:1px solid #594a2e;color:var(--gold);padding:5px 8px;border-radius:99px;font-size:11px}
-.map{height:290px;border-radius:20px;overflow:hidden}
-.auth{min-height:100vh;padding:28px 18px;display:flex;align-items:center}
-.authbox{width:100%;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;background:#0e0e12;border-radius:12px;padding:4px;margin:18px 0}
-.tabs button{border:0;background:none;color:var(--muted);padding:10px;border-radius:9px;font-weight:800}
-.tabs .active{background:#24242b;color:#fff}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:11px 15px;border-radius:12px;display:none;z-index:30}
-.toast.show{display:block}
-.msg{padding:10px 13px;border-radius:15px;background:#202027;margin:7px 0;max-width:82%}
-.mine{margin-left:auto;background:#3b3221;color:#fff}
-.hidden{display:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#09090b">
+  <title>COME BY · #TlaKwana</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <style>
+    :root{
+      --bg:#09090b;
+      --card:#151519;
+      --soft:#202027;
+      --ink:#fff;
+      --muted:#a1a1aa;
+      --gold:#d7b46a;
+      --line:#2b2b32;
+      --green:#58d68d;
+      --red:#ff7272;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    button,
+    input,
+    textarea,
+    select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    .app{
+      max-width:560px;
+      margin:auto;
+      min-height:100vh;
+      background:var(--bg);
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:20;
+      padding:14px 17px;
+      background:#09090dec;
+      border-bottom:1px solid var(--line);
+      backdrop-filter:blur(15px);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .brand{
+      font-weight:950;
+      font-size:25px;
+      letter-spacing:-1px;
+    }
+
+    .slogan{
+      font-size:12px;
+      color:var(--gold);
+      font-weight:900;
+      letter-spacing:.5px;
+    }
+
+    .tag{
+      font-size:10px;
+      color:var(--muted);
+      letter-spacing:.5px;
+      margin-top:2px;
+    }
+
+    main{
+      padding:17px 15px 90px;
+    }
+
+    .hero{
+      padding:23px;
+      border:1px solid #353039;
+      border-radius:25px;
+      background:
+        radial-gradient(
+          circle at top right,
+          #40301b,
+          #151519 48%
+        );
+      margin-bottom:14px;
+    }
+
+    .hero h1{
+      font-size:32px;
+      line-height:1;
+      margin:7px 0 12px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:19px;
+      padding:16px;
+      margin-bottom:12px;
+    }
+
+    .card h2,
+    .card h3{
+      margin-top:0;
+    }
+
+    .tight{
+      padding:12px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .gold{
+      color:var(--gold);
+    }
+
+    .green{
+      color:var(--green);
+    }
+
+    .red{
+      color:var(--red);
+    }
+
+    .small{
+      font-size:12px;
+    }
+
+    .big{
+      font-size:22px;
+      font-weight:900;
+    }
+
+    .row{
+      display:flex;
+      gap:11px;
+      align-items:center;
+    }
+
+    .grow{
+      flex:1;
+    }
+
+    .choice{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:9px;
+    }
+
+    .choice button{
+      border:1px solid var(--line);
+      background:#19191f;
+      color:#fff;
+      border-radius:14px;
+      padding:13px;
+      font-weight:850;
+    }
+
+    .choice button.active{
+      border-color:var(--gold);
+      background:#292216;
+      color:var(--gold);
+    }
+
+    .btn{
+      width:100%;
+      border:0;
+      border-radius:14px;
+      padding:13px;
+      font-weight:850;
+      background:var(--gold);
+      color:#111;
+    }
+
+    .btn.secondary{
+      background:transparent;
+      color:#fff;
+      border:1px solid var(--line);
+    }
+
+    .btn.green{
+      background:var(--green);
+      color:#111;
+    }
+
+    .btn.danger{
+      background:var(--red);
+      color:#111;
+    }
+
+    .btn.small-btn{
+      width:auto;
+      padding:9px 12px;
+      font-size:11px;
+    }
+
+    label{
+      font-size:12px;
+      font-weight:800;
+      display:block;
+      margin:11px 0 6px;
+    }
+
+    input,
+    textarea,
+    select{
+      width:100%;
+      background:#0e0e12;
+      color:#fff;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      outline:none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus{
+      border-color:var(--gold);
+    }
+
+    textarea{
+      min-height:82px;
+      resize:vertical;
+    }
+
+    .pill{
+      display:inline-block;
+      border:1px solid #594a2e;
+      color:var(--gold);
+      padding:5px 8px;
+      border-radius:99px;
+      font-size:10px;
+      font-weight:800;
+      margin:2px;
+    }
+
+    .status{
+      font-size:11px;
+      font-weight:900;
+    }
+
+    .available{
+      color:var(--green);
+    }
+
+    .offline{
+      color:var(--muted);
+    }
+
+    .phone{
+      font-size:14px;
+      font-weight:900;
+      color:var(--gold);
+    }
+
+    .photos{
+      display:flex;
+      gap:7px;
+      overflow:auto;
+      margin-top:9px;
+    }
+
+    .photos img{
+      width:84px;
+      height:84px;
+      object-fit:cover;
+      border-radius:13px;
+      border:1px solid var(--line);
+      flex:0 0 auto;
+    }
+
+    .profilepic{
+      width:68px;
+      height:68px;
+      border-radius:50%;
+      object-fit:cover;
+      border:2px solid var(--gold);
+      flex:0 0 auto;
+    }
+
+    .map{
+      height:390px;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+
+    .mapnote{
+      padding:10px 11px;
+      background:#101014;
+      border-radius:12px;
+      margin-bottom:9px;
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .locdot{
+      color:var(--green);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .line{
+      height:1px;
+      background:var(--line);
+      margin:13px 0;
+    }
+
+    .request-card{
+      border-left:3px solid var(--gold);
+    }
+
+    .provider-card{
+      border-left:3px solid var(--green);
+    }
+
+    .empty{
+      text-align:center;
+      padding:30px 10px;
+      color:var(--muted);
+    }
+
+    .nav{
+      position:fixed;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      max-width:560px;
+      width:100%;
+      background:#111114;
+      border-top:1px solid var(--line);
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      padding:6px 5px;
+      z-index:25;
+    }
+
+    .nav button{
+      background:none;
+      border:0;
+      color:var(--muted);
+      padding:7px 2px;
+      font-size:10px;
+    }
+
+    .nav .active{
+      color:var(--gold);
+    }
+
+    .auth{
+      min-height:100vh;
+      padding:25px 17px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .authbox{
+      width:100%;
+      max-width:430px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+    }
+
+    .authbox .brand{
+      font-size:32px;
+    }
+
+    .tabs{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      background:#0e0e12;
+      border-radius:11px;
+      padding:4px;
+      margin:17px 0;
+    }
+
+    .tabs button{
+      border:0;
+      background:none;
+      color:var(--muted);
+      padding:10px;
+      border-radius:8px;
+      font-weight:800;
+    }
+
+    .tabs .active{
+      background:#24242b;
+      color:#fff;
+    }
+
+    .toast{
+      position:fixed;
+      bottom:77px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#fff;
+      color:#111;
+      padding:11px 15px;
+      border-radius:12px;
+      display:none;
+      z-index:50;
+      max-width:90%;
+      box-shadow:0 10px 30px rgba(0,0,0,.3);
+    }
+
+    .toast.show{
+      display:block;
+    }
+
+    .msg{
+      padding:10px 13px;
+      border-radius:15px;
+      background:#202027;
+      margin:7px 0;
+      max-width:82%;
+      word-break:break-word;
+    }
+
+    .msg.mine{
+      margin-left:auto;
+      background:#3b3221;
+    }
+
+    .toggle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .switch{
+      width:52px;
+      height:30px;
+      border-radius:99px;
+      background:#333;
+      position:relative;
+      border:0;
+      flex:0 0 auto;
+    }
+
+    .switch i{
+      position:absolute;
+      top:4px;
+      left:4px;
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      background:#fff;
+      transition:.2s;
+    }
+
+    .switch.on{
+      background:var(--green);
+    }
+
+    .switch.on i{
+      left:26px;
+    }
+
+    @media(max-width:480px){
+      .hero h1{
+        font-size:28px;
+      }
+
+      .choice{
+        grid-template-columns:1fr;
+      }
+
+      .map{
+        height:350px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+
 <div id="app"></div>
-<div id="toast" class="toast"></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
-const A='/api';
-let S={
- user:null,
- screen:'home',
- requests:[],
- chats:[],
- selected:null,
- auth:'login',
- role:'client',
- assistance:'SHORT TIME',
- transport:'PICK & DROP',
- map:null
-};
+<div id="toast" class="toast"></div>
 
-const $=id=>document.getElementById(id);
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-async function api(p,o={}){
- o.headers={
-  'Content-Type':'application/json',
-  ...(o.headers||{}),
-  ...(localStorage.cb_token?{Authorization:'Bearer '+localStorage.cb_token}:{})
- };
- let r=await fetch(A+p,o),d=await r.json();
- if(!r.ok)throw Error(d.error||'Request failed');
- return d
+<script>
+
+const API = "/api";
+
+let token =
+  localStorage.getItem("cb_token") || "";
+
+let currentUser = null;
+
+let currentScreen = "home";
+
+let selectedRequestId = null;
+
+let liveMap = null;
+
+let livePollTimer = null;
+
+let locationWatchId = null;
+
+let locationSharing = false;
+
+let messages = [];
+
+
+// ======================================
+// HELPERS
+// ======================================
+
+function $(id){
+  return document.getElementById(id);
 }
 
-function toast(x){
- $('toast').textContent=x;
- $('toast').classList.add('show');
- setTimeout(()=>$('toast').classList.remove('show'),2200)
+function esc(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
+
+function toast(message){
+
+  const el = $("toast");
+
+  el.textContent = message;
+
+  el.classList.add("show");
+
+  setTimeout(() => {
+    el.classList.remove("show");
+  }, 2500);
+}
+
+async function api(path, options = {}){
+
+  const headers = {
+    ...(options.headers || {})
+  };
+
+  if(
+    options.body &&
+    typeof options.body !== "string"
+  ){
+
+    headers["Content-Type"] =
+      "application/json";
+
+    options.body =
+      JSON.stringify(options.body);
+  }
+
+  if(token){
+
+    headers.Authorization =
+      "Bearer " + token;
+  }
+
+  const response =
+    await fetch(API + path,{
+      ...options,
+      headers
+    });
+
+  let data = {};
+
+  try{
+    data = await response.json();
+  }catch(_){}
+
+  if(!response.ok){
+
+    throw new Error(
+      data.error ||
+      "Request failed."
+    );
+  }
+
+  return data;
+}
+
+
+// ======================================
+// BOOT
+// ======================================
 
 async function boot(){
- if(localStorage.cb_token)
-  try{
-   S.user=(await api('/auth/me')).user
-  }catch(e){
-   localStorage.removeItem('cb_token')
+
+  if(!token){
+
+    render();
+
+    return;
   }
- render()
+
+  try{
+
+    const data =
+      await api("/auth/me");
+
+    currentUser =
+      data.user;
+
+  }catch(error){
+
+    token = "";
+
+    currentUser = null;
+
+    localStorage.removeItem(
+      "cb_token"
+    );
+  }
+
+  render();
 }
 
-function nav(){
- return S.user?`
- <div class="nav">
-  <button onclick="go('home')" class="${S.screen==='home'?'active':''}">⌂<br>Home</button>
-  <button onclick="go('requests')" class="${S.screen==='requests'?'active':''}">◉<br>Requests</button>
-  <button onclick="go('map')" class="${S.screen==='map'?'active':''}">⌖<br>Map</button>
-  <button onclick="go('profile')" class="${S.screen==='profile'?'active':''}">●<br>Profile</button>
- </div>`:''
+
+// ======================================
+// LOGOUT
+// ======================================
+
+function logout(){
+
+  stopLocationWatch();
+
+  stopLivePolling();
+
+  token = "";
+
+  currentUser = null;
+
+  localStorage.removeItem(
+    "cb_token"
+  );
+
+  currentScreen = "home";
+
+  render();
 }
 
-function head(){
- return `
- <header>
-  <div>
-   <div class="brand">COME <span class="gold">BY</span></div>
-   <div class="tag">PRIVATE PERSONAL ASSISTANCE</div>
-  </div>
-  <span class="pill">${S.user?.role?.toUpperCase()||''}</span>
- </header>`
-}
 
-function go(x){
- S.screen=x;
- render()
-}
+// ======================================
+// AUTH
+// ======================================
 
-function auth(){
- return `
- <div class="auth">
-  <div class="authbox">
-   <div class="brand">COME <span class="gold">BY</span></div>
-   <p class="muted">Connect. Choose. Meet.</p>
+let authMode = "login";
 
-   <div class="tabs">
-    <button class="${S.auth==='login'?'active':''}" onclick="S.auth='login';render()">Log in</button>
-    <button class="${S.auth==='signup'?'active':''}" onclick="S.auth='signup';render()">Sign up</button>
-   </div>
+let authRole = "client";
 
-   ${S.auth==='signup'?'<label>Full name</label><input id="name" placeholder="Your name">':''}
+function renderAuth(){
 
-   <label>Phone</label>
-   <input id="phone" placeholder="+267 ...">
+  $("app").innerHTML = `
 
-   <label>Password</label>
-   <input id="pass" type="password" placeholder="At least 6 characters">
+    <div class="auth">
 
-   ${S.auth==='signup'?`
-   <label>Join as</label>
-   <div class="choice">
-    <button class="${S.role==='client'?'active':''}" onclick="S.role='client';render()">Client</button>
-    <button class="${S.role==='provider'?'active':''}" onclick="S.role='provider';render()">Provider</button>
-   </div>`:''}
+      <div class="authbox">
 
-   <br>
-   <button class="btn" onclick="submitAuth()">
-    ${S.auth==='login'?'Log in':'Create account'}
-   </button>
+        <div class="brand">
+          COME <span class="gold">BY</span>
+        </div>
 
-   <p class="muted" style="font-size:12px">
-    Lawful, non-sexual personal assistance. Exact locations are shared only with consent.
-   </p>
-  </div>
- </div>`
+        <div class="slogan">
+          #TlaKwana
+        </div>
+
+        <p class="muted">
+          Connect. Choose. Meet.
+        </p>
+
+        <div class="tabs">
+
+          <button
+            class="${authMode==="login"?"active":""}"
+            onclick="authMode='login';render()"
+          >
+            LOG IN
+          </button>
+
+          <button
+            class="${authMode==="signup"?"active":""}"
+            onclick="authMode='signup';render()"
+          >
+            SIGN UP
+          </button>
+
+        </div>
+
+        ${
+          authMode === "signup"
+          ? `
+            <label>Full name</label>
+
+            <input
+              id="auth-name"
+              placeholder="Your name"
+            >
+
+            <label>Age</label>
+
+            <input
+              id="auth-age"
+              type="number"
+              min="18"
+              max="100"
+              placeholder="18+"
+            >
+
+            <label>Join as</label>
+
+            <div class="choice">
+
+              <button
+                class="${authRole==="client"?"active":""}"
+                onclick="authRole='client';render()"
+              >
+                CLIENT
+              </button>
+
+              <button
+                class="${authRole==="provider"?"active":""}"
+                onclick="authRole='provider';render()"
+              >
+                PROVIDER
+              </button>
+
+            </div>
+          `
+          : ""
+        }
+
+        <label>Phone number</label>
+
+        <input
+          id="auth-phone"
+          type="tel"
+          placeholder="+267 ..."
+        >
+
+        <label>Password</label>
+
+        <input
+          id="auth-password"
+          type="password"
+          placeholder="Password"
+        >
+
+        <br>
+
+        <button
+          class="btn"
+          onclick="submitAuth()"
+        >
+          ${
+            authMode === "login"
+              ? "LOG IN"
+              : "CREATE ACCOUNT"
+          }
+        </button>
+
+        <div class="mapnote" style="margin-top:14px">
+
+          COME BY is designed for
+          <strong>lawful, non-sexual personal assistance.</strong>
+
+          Live location is shared only for
+          relevant requests.
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
 }
 
 async function submitAuth(){
- try{
-  let body={
-   phone:$('phone').value,
-   password:$('pass').value
-  };
 
-  if(S.auth==='signup')
-   Object.assign(body,{
-    name:$('name').value,
-    role:S.role
-   });
+  try{
 
-  let d=await api(
-   '/auth/'+(S.auth==='login'?'login':'register'),
-   {
-    method:'POST',
-    body:JSON.stringify(body)
-   }
-  );
+    const phone =
+      $("auth-phone")
+        .value
+        .trim();
 
-  localStorage.cb_token=d.token;
-  S.user=d.user;
-  render()
- }catch(e){
-  toast(e.message)
- }
+    const password =
+      $("auth-password")
+        .value;
+
+    if(!phone || !password){
+
+      throw new Error(
+        "Phone number and password are required."
+      );
+    }
+
+    let body = {
+      phone,
+      password
+    };
+
+    let endpoint =
+      "/auth/login";
+
+    if(authMode === "signup"){
+
+      const name =
+        $("auth-name")
+          .value
+          .trim();
+
+      const age =
+        Number(
+          $("auth-age")
+            .value
+        );
+
+      if(!name){
+
+        throw new Error(
+          "Please enter your name."
+        );
+      }
+
+      if(!age || age < 18){
+
+        throw new Error(
+          "You must be 18 or older."
+        );
+      }
+
+      body = {
+        name,
+        phone,
+        age,
+        role:authRole,
+        password
+      };
+
+      endpoint =
+        "/auth/register";
+    }
+
+    const data =
+      await api(
+        endpoint,
+        {
+          method:"POST",
+          body
+        }
+      );
+
+    token =
+      data.token;
+
+    localStorage.setItem(
+      "cb_token",
+      token
+    );
+
+    currentUser =
+      data.user;
+
+    currentScreen =
+      "home";
+
+    render();
+
+  }catch(error){
+
+    toast(error.message);
+  }
 }
 
-function home(){
- if(S.user.role==='client')
- return `
- <div class="hero">
-  <span class="pill">PERSONAL ASSISTANCE</span>
-  <h1>
-   Find the right person.<br>
-   <span class="gold">Choose with confidence.</span>
-  </h1>
-  <p class="muted">
-   Post what you need, review interested providers and connect privately after acceptance.
-  </p>
- </div>
 
- <div class="card">
-  <h3>Start a request</h3>
+// ======================================
+// HEADER
+// ======================================
 
-  <label>Choose duration</label>
-  <div class="choice">
-   <button class="${S.assistance==='SHORT TIME'?'active':''}"
-    onclick="S.assistance='SHORT TIME';render()">SHORT TIME</button>
+function head(){
 
-   <button class="${S.assistance==='SLEEP OVER'?'active':''}"
-    onclick="S.assistance='SLEEP OVER';render()">SLEEP OVER</button>
-  </div>
+  return `
 
-  <label>Choose movement</label>
-  <div class="choice">
-   <button class="${S.transport==='PICK & DROP'?'active':''}"
-    onclick="S.transport='PICK & DROP';render()">PICK & DROP</button>
+    <header>
 
-   <button class="${S.transport==='DRIVE THROUGH'?'active':''}"
-    onclick="S.transport='DRIVE THROUGH';render()">DRIVE THROUGH</button>
-  </div>
+      <div>
 
-  <label>Area / meeting point</label>
-  <input id="area" placeholder="e.g. CBD, Gaborone">
+        <div class="brand">
+          COME <span class="gold">BY</span>
+        </div>
 
-  <label>Proposed amount (optional)</label>
-  <input id="amount" type="number" placeholder="P">
+        <div class="slogan">
+          #TlaKwana
+        </div>
 
-  <label>Details</label>
-  <textarea id="details" placeholder="Describe the assistance you need"></textarea>  <br>
-  <button class="btn" onclick="createReq()">POST REQUEST</button>
- </div>`;return `
+        <div class="tag">
+          PRIVATE PERSONAL ASSISTANCE
+        </div>
 
- <div class="hero">
-  <span class="pill">PROVIDER</span>
-  <h1>
-   Be visible.<br>
-   <span class="gold">Choose your requests.</span>
-  </h1>
-  <p class="muted">
-   Complete your profile with age and up to 3 photos, then show interest in suitable requests.
-  </p>
- </div> <div class="card">
-  <h3>Open requests</h3>
-  <div id="providerList">Loading…</div>
- </div>`
-}async function createReq(){
-try{
-let d=await api('/requests',{
-method:'POST',
-body:JSON.stringify({
-assistance_type:S.assistance,
-transport_type:S.transport,
-area:$('area').value,
-amount:$('amount').value,
-details:$('details').value
-})
-});
+      </div>
 
-toast('Request posted');
-go('requests')
-}catch(e){
-toast(e.message)
+      <span class="pill">
+        ${esc(currentUser?.role || "")}
+      </span>
+
+    </header>
+  `;
 }
+
+
+// ======================================
+// NAVIGATION
+// ======================================
+
+function nav(){
+
+  return `
+
+    <div class="nav">
+
+      <button
+        onclick="go('home')"
+        class="${currentScreen==="home"?"active":""}"
+      >
+        ⌂<br>
+        HOME
+      </button>
+
+      <button
+        onclick="go('requests')"
+        class="${currentScreen==="requests"?"active":""}"
+      >
+        ◉<br>
+        REQUESTS
+      </button>
+
+      <button
+        onclick="go('history')"
+        class="${currentScreen==="history"?"active":""}"
+      >
+        ▣<br>
+        HISTORY
+      </button>
+
+      <button
+        onclick="go('map')"
+        class="${currentScreen==="map"?"active":""}"
+      >
+        ⌖<br>
+        LIVE MAP
+      </button>
+
+      <button
+        onclick="go('profile')"
+        class="${currentScreen==="profile"?"active":""}"
+      >
+        ●<br>
+        PROFILE
+      </button>
+
+    </div>
+  `;
 }
+
+function go(screen){
+
+  stopLivePolling();
+
+  currentScreen =
+    screen;
+
+  render();
+}
+
+
+// ======================================
+// MAIN RENDER
+// ======================================
+
+async function render(){
+
+  if(!currentUser){
+
+    renderAuth();
+
+    return;
+  }
+
+  let content = "";
+
+  try{
+
+    if(currentScreen === "home"){
+
+      content =
+        await home();
+    }
+
+    else if(currentScreen === "requests"){
+
+      content =
+        await requests();
+    }
+
+    else if(currentScreen === "history"){
+
+      content =
+        await historyScreen();
+    }
+
+    else if(currentScreen === "map"){
+
+      content =
+        mapScreen();
+    }
+
+    else if(currentScreen === "profile"){
+
+      content =
+        profileScreen();
+    }
+
+    else if(currentScreen === "providers"){
+
+      content =
+        await providersScreen();
+    }
+
+    else if(currentScreen === "match"){
+
+      content =
+        await matchScreen();
+    }
+
+    else if(currentScreen === "chat"){
+
+      content =
+        chatScreen();
+    }
+
+    else if(currentScreen === "chatlist"){
+
+      content =
+        await chatListScreen();
+    }
+
+    else{
+
+      content =
+        await home();
+    }
+
+  }catch(error){
+
+    content = `
+
+      <div class="card">
+
+        <div class="red">
+          ${esc(error.message)}
+        </div>
+
+        <br>
+
+        <button
+          class="btn"
+          onclick="go('home')"
+        >
+          HOME
+        </button>
+
+      </div>
+    `;
+  }
+
+  $("app").innerHTML =
+    `<div class="app">
+      ${head()}
+      <main>${content}</main>
+      ${nav()}
+    </div>`;
+
+  if(
+    currentScreen === "home" &&
+    currentUser.role === "client"
+  ){
+
+    loadAvailableProviders();
+  }
+
+  if(
+    currentScreen === "map" &&
+    currentUser.role === "client" &&
+    selectedRequestId
+  ){
+
+    setTimeout(
+      () => initLiveMap(
+        selectedRequestId
+      ),
+      100
+    );
+  }
+}
+
+
+// ======================================
+// CLIENT HOME
+// ======================================
+
+let selectedAssistance =
+  "SHORT TIME";
+
+let selectedTransport =
+  "PICK & DROP";
+
+async function home(){
+
+  if(currentUser.role === "provider"){
+
+    return providerHome();
+  }
+
+  return `
+
+    <div class="hero">
+
+      <span class="pill">
+        CLIENT
+      </span>
+
+      <h1>
+        Find the right person.
+        <br>
+        <span class="gold">
+          Choose with confidence.
+        </span>
+      </h1>
+
+      <p class="muted">
+        Post a request, see interested
+        providers and view their live
+        locations on your map.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>
+        Start a request
+      </h3>
+
+      <label>
+        Assistance type
+      </label>
+
+      <div class="choice">
+
+        <button
+          class="${selectedAssistance==="SHORT TIME"?"active":""}"
+          onclick="selectedAssistance='SHORT TIME';render()"
+        >
+          SHORT TIME
+        </button>
+
+        <button
+          class="${selectedAssistance==="SLEEP OVER"?"active":""}"
+          onclick="selectedAssistance='SLEEP OVER';render()"
+        >
+          SLEEP OVER
+        </button>
+
+      </div>
+
+      <label>
+        Transport / movement
+      </label>
+
+      <div class="choice">
+
+        <button
+          class="${selectedTransport==="PICK & DROP"?"active":""}"
+          onclick="selectedTransport='PICK & DROP';render()"
+        >
+          PICK & DROP
+        </button>
+
+        <button
+          class="${selectedTransport==="DRIVE THROUGH"?"active":""}"
+          onclick="selectedTransport='DRIVE THROUGH';render()"
+        >
+          DRIVE THROUGH
+        </button>
+
+      </div>
+
+      <label>
+        Area / meeting point
+      </label>
+
+      <input
+        id="request-area"
+        placeholder="e.g. CBD, Gaborone"
+      >
+
+      <label>
+        Proposed amount (optional)
+      </label>
+
+      <input
+        id="request-amount"
+        type="number"
+        min="0"
+        placeholder="P"
+      >
+
+      <label>
+        Details
+      </label>
+
+      <textarea
+        id="request-details"
+        placeholder="Describe the assistance you need"
+      ></textarea>
+
+      <br>
+
+      <button
+        class="btn"
+        onclick="createRequest()"
+      >
+        POST REQUEST
+      </button>
+
+    </div>
+
+    <div class="card">
+
+      <div class="row">
+
+        <div class="grow">
+
+          <h3 style="margin:0">
+            Available providers
+          </h3>
+
+          <div class="muted small">
+            Providers who have chosen to
+            be available.
+          </div>
+
+        </div>
+
+        <button
+          class="btn secondary small-btn"
+          onclick="loadAvailableProviders()"
+        >
+          REFRESH
+        </button>
+
+      </div>
+
+      <div
+        id="available-providers"
+        class="small muted"
+        style="margin-top:12px"
+      >
+        Loading...
+      </div>
+
+    </div>
+  `;
+}
+
+
+// ======================================
+// CREATE REQUEST
+// ======================================
+
+async function createRequest(){
+
+  try{
+
+    const area =
+      $("request-area")
+        .value
+        .trim();
+
+    const amount =
+      $("request-amount")
+        .value;
+
+    const details =
+      $("request-details")
+        .value
+        .trim();
+
+    if(!area){
+
+      throw new Error(
+        "Please enter the area or meeting point."
+      );
+    }
+
+    let latitude = null;
+    let longitude = null;
+
+    try{
+
+      const position =
+        await getCurrentPosition();
+
+      latitude =
+        position.coords.latitude;
+
+      longitude =
+        position.coords.longitude;
+
+    }catch(_){}
+
+    const data =
+      await api(
+        "/requests",
+        {
+          method:"POST",
+          body:{
+            assistance_type:
+              selectedAssistance,
+
+            transport_type:
+              selectedTransport,
+
+            area,
+
+            amount:
+              amount
+                ? Number(amount)
+                : null,
+
+            details,
+
+            latitude,
+            longitude
+          }
+        }
+      );
+
+    selectedRequestId =
+      data.request?.id ||
+      data.id ||
+      null;
+
+    toast(
+      "Request posted successfully."
+    );
+
+    go("requests");
+
+  }catch(error){
+
+    toast(error.message);
+  }
+}
+
+
+// ======================================
+// AVAILABLE PROVIDERS
+// ======================================
+
+async function loadAvailableProviders(){
+
+  const el =
+    $("available-providers");
+
+  if(!el){
+    return;
+  }
+
+  try{
+
+    const data =
+      await api(
+        "/providers/available"
+      );
+
+    const providers =
+      data.providers || [];
+
+    if(!providers.length){
+
+      el.innerHTML =
+        `<div class="empty">
+          No providers are currently available.
+        </div>`;
+
+      return;
+    }
+
+    el.innerHTML =
+      providers
+        .map(p => `
+
+          <div class="card tight">
+
+            <div class="row">
+
+              ${
+                p.photos?.[0]
+                ? `
+                  <img
+                    class="profilepic"
+                    src="${esc(p.photos[0])}"
+                    alt="Provider"
+                  >
+                `
+                : `
+                  <div
+                    class="profilepic"
+                    style="display:grid;place-items:center"
+                  >
+                    ●
+                  </div>
+                `
+              }
+
+              <div class="grow">
+
+                <strong>
+                  ${esc(p.name)}
+                </strong>
+
+                ${
+                  p.age
+                  ? `
+                    <div class="muted small">
+                      Age ${esc(p.age)}
+                    </div>
+                  `
+                  : ""
+                }
+
+                <div class="status available">
+                  ● AVAILABLE
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        `)
+        .join("");
+
+  }catch(error){
+
+    el.innerHTML =
+      `<div class="red">
+        Unable to load providers.
+      </div>`;
+  }
+}
+
+
+// ======================================
+// PROVIDER HOME
+// ======================================
+
+async function providerHome(){
+
+  let availability =
+    false;
+
+  try{
+
+    const data =
+      await api("/auth/me");
+
+    currentUser =
+      data.user;
+
+    availability =
+      !!currentUser.available;
+
+  }catch(_){}
+
+  return `
+
+    <div class="hero">
+
+      <span class="pill">
+        PROVIDER
+      </span>
+
+      <h1>
+        Be visible.
+        <br>
+        <span class="gold">
+          Choose your requests.
+        </span>
+      </h1>
+
+      <p class="muted">
+        Turn availability on, choose
+        requests and share your live GPS
+        location after showing interest.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <div class="toggle">
+
+        <div>
+
+          <strong>
+            Available for requests
+          </strong>
+
+          <div class="muted small">
+
+            ${
+              availability
+              ? "Clients can see you as available."
+              : "You are currently unavailable."
+            }
+
+          </div>
+
+        </div>
+
+        <button
+          class="switch ${availability?"on":""}"
+          onclick="toggleAvailability()"
+        >
+          <i></i>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div class="row">
+
+        <div class="grow">
+
+          <h3 style="margin:0">
+            Open requests
+          </h3>
+
+          <div class="muted small">
+            Show interest in requests that
+            you are willing to take.
+          </div>
+
+        </div>
+
+        <button
+          class="btn secondary small-btn"
+          onclick="render()"
+        >
+          REFRESH
+        </button>
+
+      </div>
+
+      <div
+        id="provider-request-list"
+        style="margin-top:12px"
+      >
+        ${
+          availability
+          ? `
+            <div class="empty">
+              Loading requests...
+            </div>
+          `
+          : `
+            <div class="empty">
+              Turn availability on to see
+              open requests.
+            </div>
+          `
+        }
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <h3>
+        Accepted matches
+      </h3>
+
+      <div
+        id="provider-matches"
+      >
+        <div class="empty">
+          Loading...
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+
+// ======================================
+// PROVIDER AVAILABILITY
+// ======================================
+
+async function toggleAvailability(){
+
+  try{
+
+    const data =
+      await api(
+        "/provider/availability",
+        {
+          method:"PUT",
+          body:{
+            available:
+              !currentUser.available
+          }
+        }
+      );
+
+    currentUser =
+      data.user;
+
+    toast(
+      currentUser.available
+        ? "You are now AVAILABLE."
+        : "You are now UNAVAILABLE."
+    );
+
+    render();
+
+  }catch(error){
+
+    toast(error.message);
+  }
+}
+
+
+// ======================================
+// REQUEST LIST
+// ======================================
 
 async function requests(){
-let d=await api('/requests');
-S.requests=d.requests;
 
-return `
+  try{
 
- <div class="card">
-  <h2>${S.user.role==='client'?'Your requests':'Available requests'}</h2>${S.requests.length?
-S.requests.map(r=>`
-<div class="card">
-<span class="pill">${r.assistance_type}</span>
-<span class="pill">${r.transport_type}</span>
+    const data =
+      await api("/requests");
 
- <h3>${r.area}</h3>
+    const rows =
+      data.requests || [];
 
- <p class="muted">
-  ${r.details||'No extra details'}
- </p>
+    if(currentUser.role === "provider"){
 
- <p>
-  ${r.amount?'P'+r.amount:'Amount to discuss'}
- </p>
+      return `
 
- ${S.user.role==='provider'?
-  `<button class="btn" onclick="interest(${r.id})">
-   I'M INTERESTED
-  </button>`
-  :
-  `<button class="btn secondary" onclick="providers(${r.id})">
-   VIEW INTERESTED PROVIDERS
-  </button>`
- }
-</div>
+        <div class="card">
 
-`).join('')
-:
-'<div class="muted">No requests yet.</div>'
+          <h2>
+            Available Requests
+          </h2>
+
+          <p class="muted small">
+            Show interest to become visible
+            to the client.
+          </p>
+
+        </div>
+
+        ${
+          currentUser.available
+          ? (
+              rows
+                .filter(
+                  r => r.status === "OPEN"
+                )
+                .map(
+                  providerRequestCard
+                )
+                .join("")
+              ||
+              `
+                <div class="card">
+                  <div class="empty">
+                    No open requests right now.
+                  </div>
+                </div>
+              `
+            )
+          : `
+            <div class="card">
+              <div class="empty">
+                You are offline.
+                Turn availability on first.
+              </div>
+            </div>
+          `
+        }
+
+        <div class="card">
+
+          <h3>
+            My accepted matches
+          </h3>
+
+          <div
+            id="provider-match-list"
+          >
+            Loading...
+          </div>
+
+        </div>
+      `;
+    }
+
+    return `
+
+      <div class="card">
+
+        <div class="row">
+
+          <div class="grow">
+
+            <h2 style="margin:0">
+              My Requests
+            </h2>
+
+            <div class="muted small">
+              Manage your active requests.
+            </div>
+
+          </div>
+
+          <button
+            class="btn secondary small-btn"
+            onclick="go('home')"
+          >
+            NEW
+          </button>
+
+        </div>
+
+      </div>
+
+      ${
+        rows.length
+        ? rows.map(
+            clientRequestCard
+          ).join("")
+        : `
+          <div class="card">
+            <div class="empty">
+              No requests yet.
+            </div>
+          </div>
+        `
+      }
+
+    `;
+
+  }catch(error){
+
+    return `
+      <div class="card">
+        <div class="red">
+          ${esc(error.message)}
+        </div>
+      </div>
+    `;
+  }
 }
 
- </div>`
-}async function interest(id){
-try{
-await api('/requests/'+id+'/interests',{
-method:'POST'
-});
-toast('Interest sent')
-}catch(e){
-toast(e.message)
-}
-}
 
-async function providers(id){
-try{
-let d=await api('/requests/'+id+'/providers');
-S.selected=id;
-go('providers');
-S.providers=d.providers;
-render()
-}catch(e){
-toast(e.message)
-}
-}
+// ======================================
+// CLIENT REQUEST CARD
+// ======================================
 
-function providerScreen(){
-return `
+function clientRequestCard(r){
 
- <div class="card">
-  <button class="btn secondary" onclick="go('requests')">← Back</button>  <h2>Interested providers</h2>${(S.providers||[]).map(p=>`
+  return `
 
-   <div class="card"><div class="row">
- ${p.photos?.[0]?
-  `<img class="profilepic" src="${p.photos[0]}">`
-  :
-  '<div class="profilepic" style="display:grid;place-items:center">●</div>'
- }
+    <div class="card request-card">
 
- <div class="grow">
-  <h3>${p.name}</h3>
-  <div class="muted">${p.age||'Age not added'}</div>
- </div>
-</div>
+      <div class="row">
 
-${p.photos?.length?
- `<div class="photos">
-  ${p.photos.map(x=>`<img src="${x}">`).join('')}
- </div>`
- :''
-}
+        <div class="grow">
 
-<br>
+          <span class="pill">
+            ${esc(r.status)}
+          </span>
 
-<button class="btn"
- onclick="accept(${S.selected},${p.id})">
- ACCEPT PROVIDER
-</button>
+          <h3>
+            ${esc(r.assistance_type)}
+          </h3>
 
-   </div>
-  `).join('')||'<p class="muted">No providers yet.</p>'}
- </div>`
-}async function accept(r,p){
-try{
-await api('/requests/'+r+'/accept',{
-method:'POST',
-body:JSON.stringify({
-provider_id:p
-})
-});
+          <div class="muted">
+            ${esc(r.transport_type)}
+          </div>
 
-toast('Accepted — private chat is now open');
-go('chats')
-}catch(e){
-toast(e.message)
-}
-}
+        </div>
 
-async function chats(){
-let d=await api('/chats');
-S.chats=d.chats;
+      </div>
 
-return `
+      <div
+        class="small"
+        style="margin-top:10px"
+      >
 
- <div class="card">
-  <h2>Private messages</h2>${S.chats.length?
-S.chats.map(c=>`
-<div class="card">
-<h3>
-${S.user.id===c.client_id?c.provider_name:c.client_name}
-</h3>
+        <div>
+          <span class="muted">
+            Location:
+          </span>
+          ${esc(r.area)}
+        </div>
 
- <p class="muted">
-  ${c.assistance_type} · ${c.transport_type}
- </p>
+        ${
+          r.amount !== null &&
+          r.amount !== undefined
+          ? `
+            <div style="margin-top:5px">
+              <span class="muted">
+                Offer:
+              </span>
+              <span class="gold">
+                P${esc(r.amount)}
+              </span>
+            </div>
+          `
+          : ""
+        }
 
- <button class="btn"
-  onclick="openChat(${c.request_id})">
-  OPEN CHAT
- </button>
-</div>
+        ${
+          r.details
+          ? `
+            <div style="margin-top:5px">
+              <span class="muted">
+                Details:
+              </span>
+              ${esc(r.details)}
+            </div>
+          `
+          : ""
+        }
 
-`).join('')
-:
-'<p class="muted">Chats appear here after a client accepts a provider.</p>'
-}
+      </div>
 
- </div>`
-}async function openChat(id){
-let d=await api('/chats/'+id+'/messages');
-S.selected=id;
-S.messages=d.messages;
-S.screen='chat';
-render()
-}
+      ${
+        r.status === "OPEN"
+        ? `
+          <button
+            class="btn"
+            style="margin-top:13px"
+            onclick="openProviders(${r.id})"
+          >
+            INTERESTED PROVIDERS
+          </button>
+        `
+        : ""
+      }
 
-async function sendMsg(){
-try{
-await api('/chats/'+S.selected+'/messages',{
-method:'POST',
-body:JSON.stringify({
-body:$('msg').value
-})
-});
+      ${
+        r.status === "ACCEPTED"
+        ? `
+          <div
+            class="choice"
+            style="margin-top:13px"
+          >
 
-openChat(S.selected)
-}catch(e){
-toast(e.message)
-}
-}
+            <button
+              class="btn"
+              onclick="openMatch(${r.id})"
+            >
+              VIEW MATCH
+            </button>
 
-function chat(){
-return `
+            <button
+              class="btn secondary"
+              onclick="openLiveMap(${r.id})"
+            >
+              LIVE MAP
+            </button>
 
- <div class="card">  <button class="btn secondary" onclick="go('chats')">
-   ← Back
-  </button>  <h2>Private chat</h2>${(S.messages||[]).map(m=>`
+          </div>
+        `
+        : ""
+      }
 
-   <div class="msg ${m.sender_id===S.user.id?'mine':''}">
-    ${m.body}
-    <div class="muted" style="font-size:10px">
-     ${new Date(m.created_at).toLocaleString()}
     </div>
-   </div>
-  `).join('')}<label>Message</label>
-<input id="msg" placeholder="Type privately…">
-
-  <br><button class="btn" onclick="sendMsg()">SEND</button>
-
- </div>`
-}function profile(){
-let u=S.user;
-
-return `
-
- <div class="card">
-  <h2>My profile</h2>  <div class="row">
-   <div class="profilepic" style="display:grid;place-items:center">
-    ${u.name?.[0]||'C'}
-   </div>   <div>
-    <h3>${u.name}</h3>
-    <div class="muted">${u.phone}</div>
-   </div>
-  </div><label>Age</label>
-<input id="age" type="number"
-value="${u.age||''}"
-placeholder="18+">
-
-  <br>  <button class="btn" onclick="saveAge()">
-   SAVE PROFILE
-  </button>${u.role==='provider'?
-`
-
-   <div class="card">
-    <h3>Profile photos</h3><p class="muted">
- Upload up to 3 JPG, PNG or WEBP photos.
-</p>
-
-<input id="photos"
- type="file"
- accept="image/jpeg,image/png,image/webp"
- multiple>
-
-<br><br>
-
-<button class="btn" onclick="uploadPhotos()">
- UPLOAD PHOTOS
-</button>
-
-${u.photos?.length?
- `
- <div class="photos" style="margin-top:12px">
-  ${u.photos.map(x=>`<img src="${x}">`).join('')}
- </div>
- `
- :''
+  `;
 }
 
-   </div>
-   `
-   :''
-  }  <br><button class="btn secondary"
-onclick="localStorage.removeItem('cb_token');location.reload()">
-LOG OUT
-</button>
 
- </div>`
-}async function saveAge(){
-try{
-S.user=(await api('/profile',{
-method:'PUT',
-body:JSON.stringify({
-age:Number($('age').value)
-})
-})).user;
+// ======================================
+// PROVIDER REQUEST CARD
+// ======================================
 
-toast('Profile saved')
-}catch(e){
-toast(e.message)
+function providerRequestCard(r){
+
+  return `
+
+    <div class="card request-card">
+
+      <span class="pill">
+        OPEN
+      </span>
+
+      <h3>
+        ${esc(r.assistance_type)}
+      </h3>
+
+      <div class="muted">
+        ${esc(r.transport_type)}
+      </div>
+
+      <div
+        class="small"
+        style="margin-top:10px"
+      >
+
+        <div>
+          <span class="muted">
+            Area:
+          </span>
+          ${esc(r.area)}
+        </div>
+
+        ${
+          r.amount !== null &&
+          r.amount !== undefined
+          ? `
+            <div style="margin-top:5px">
+              <span class="muted">
+                Client offer:
+              </span>
+              <span class="gold">
+                P${esc(r.amount)}
+              </span>
+            </div>
+          `
+          : ""
+        }
+
+        ${
+          r.details
+          ? `
+            <div style="margin-top:5px">
+              <span class="muted">
+                Details:
+              </span>
+              ${esc(r.details)}
+            </div>
+          `
+          : ""
+        }
+
+      </div>
+
+      <button
+        class="btn"
+        style="margin-top:13px"
+        onclick="showInterest(${r.id})"
+      >
+        SHOW INTEREST
+      </button>
+
+    </div>
+  `;
 }
+
+
+// ======================================
+// INTEREST
+// ======================================
+
+async function showInterest(requestId){
+
+  try{
+
+    if(!currentUser.available){
+
+      throw new Error(
+        "Turn your availability on first."
+      );
+    }
+
+    await api(
+      `/requests/${requestId}/interests`,
+      {
+        method:"POST"
+      }
+    );
+
+    selectedRequestId =
+      requestId;
+
+    toast(
+      "Interest sent. Live GPS sharing is now available."
+    );
+
+    startLocationSharing();
+
+    render();
+
+  }catch(error){
+
+    toast(error.message);
+  }
 }
+
+
+// ======================================
+// INTERESTED PROVIDERS
+// ======================================
+
+async function openProviders(
+  requestId
+){
+
+  selectedRequestId =
+    requestId;
+
+  currentScreen =
+    "providers";
+
+  render();
+}
+
+async function providersScreen(){
+
+  try{
+
+    const data =
+      await api(
+        `/requests/${selectedRequestId}/providers`
+      );
+
+    const providers =
+      data.providers || [];
+
+    return `
+
+      <div class="card">
+
+        <div class="row">
+
+          <div class="grow">
+
+            <h2 style="margin:0">
+              Interested Providers
+            </h2>
+
+            <div class="muted small">
+              These providers have shown
+              interest in your request.
+            </div>
+
+          </div>
+
+          <button
+            class="btn secondary small-btn"
+            onclick="go('requests')"
+          >
+            BACK
+          </button>
+
+        </div>
+
+      </div>
+
+      ${
+        providers.length
+        ? providers
+            .map(
+              providerCard
+            )
+            .join("")
+        : `
+          <div class="card">
+            <div class="empty">
+              No providers have shown
+              interest yet.
+            </div>
+          </div>
+        `
+      }
+
+    `;
+
+  }catch(error){
+
+    return `
+      <div class="card">
+        <div class="red">
+          ${esc(error.message)}
+        </div>
+      </div>
+    `;
+  }
+}
+
+
+// ======================================
+// PROVIDER CARD
+// ======================================
+
+function providerCard(p){
+
+  return `
+
+    <div class="card provider-card">
+
+      <div class="row">
+
+        ${
+          p.photos?.[0]
+          ? `
+            <img
+              class="profilepic"
+              src="${esc(p.photos[0])}"
+              alt="Provider"
+            >
+          `
+          : `
+            <div
+              class="profilepic"
+              style="display:grid;place-items:center"
+            >
+              ●
+            </div>
+          `
+        }
+
+        <div class="grow">
+
+          <h3 style="margin:0">
+            ${esc(p.name)}
+          </h3>
+
+          ${
+            p.age
+            ? `
+              <div class="muted small">
+                Age ${esc(p.age)}
+              </div>
+            `
+            : ""
+          }
+
+          <div class="status available">
+            ● INTERESTED
+          </div>
+
+        </div>
+
+      </div>
+
+      ${
+        p.photos?.length
+        ? `
+          <div class="photos">
+
+            ${
+              p.photos
+                .slice(0,3)
+                .map(
+                  photo => `
+                    <img
+                      src="${esc(photo)}"
+                      alt="Provider photo"
+                    >
+                  `
+                )
+                .join("")
+            }
+
+          </div>
+        `
+        : ""
+      }
+
+      <div class="mapnote">
+        Phone details remain private until
+        you accept this provider.
+      </div>
+
+      <button
+        class="btn"
+        onclick="acceptProvider(
+          ${selectedRequestId},
+          ${p.provider_id || p.id}
+        )"
+      >
+        ACCEPT PROVIDER
+      </button>
+
+    </div>
+  `;
+}
+
+
+// ======================================
+// ACCEPT PROVIDER
+// ======================================
+
+async function acceptProvider(
+  requestId,
+  providerId
+){
+
+  try{
+
+    if(
+      !confirm(
+        "Accept this provider?"
+      )
+    ){
+
+      return;
+    }
+
+    await api(
+      `/requests/${requestId}/accept`,
+      {
+        method:"POST",
+        body:{
+          provider_id:
+            providerId
+        }
+      }
+    );
+
+    toast(
+      "Provider accepted. Phone and private chat are now available."
+    );
+
+    selectedRequestId =
+      requestId;
+
+    currentScreen =
+      "match";
+
+    render();
+
+  }catch(error){
+
+    toast(error.message);
+  }
+}
+
+
+// ======================================
+// MATCH
+// ======================================
+
+async function openMatch(
+  requestId
+){
+
+  selectedRequestId =
+    requestId;
+
+  currentScreen =
+    "match";
+
+  render();
+}
+
+async function matchScreen(){
+
+  try{
+
+    const data =
+      await api(
+        `/requests/${selectedRequestId}/match`
+      );
+
+    const m =
+      data.match || data;
+
+    const isClient =
+      currentUser.role === "client";
+
+    const other =
+      isClient
+      ? m.provider
+      : m.client;
+
+    return `
+
+      <div class="card">
+
+        <div class="row">
+
+          <div class="grow">
+
+            <span class="pill">
+              ACCEPTED
+            </span>
+
+            <h2>
+              ${esc(other?.name || "")}
+            </h2>
+
+          </div>
+
+          <button
+            class="btn secondary small-btn"
+            onclick="go('requests')"
+          >
+            BACK
+          </button>
+
+        </div>
+
+        ${
+          other?.age
+          ? `
+            <div class="muted">
+              Age ${esc(other.age)}
+            </div>
+          `
+          : ""
+        }
+
+        ${
+          other?.phone
+          ? `
+            <div
+              class="phone"
+              style="margin-top:12px"
+            >
+              ☎ ${esc(other.phone)}
+            </div>
+          `
+          : ""
+        }
+
+        <div class="mapnote" style="margin-top:13px">
+          Contact details are visible because
+          this request has been accepted.
+        </div>
+
+        <div class="choice">
+
+          <button
+            class="btn"
+            onclick="openChat(${selectedRequestId})"
+          >
+            PRIVATE CHAT
+          </button>
+
+          <button
+            class="btn secondary"
+            onclick="openLiveMap(${selectedRequestId})"
+          >
+            LIVE MAP
+          </button>
+
+        </div>
+
+        ${
+          m.status === "ACCEPTED"
+          ? `
+            <button
+              class="btn green"
+              style="margin-top:11px"
+              onclick="completeRequest(
+                ${selectedRequestId}
+              )"
+            >
+              MARK COMPLETED
+            </button>
+          `
+          : ""
+        }
+
+      </div>
+    `;
+
+  }catch(error){
+
+    return `
+      <div class="card">
+        <div class="red">
+          ${esc(error.message)}
+        </div>
+      </div>
+    `;
+  }
+}
+
+
+// ======================================
+// MATCHES
+// ======================================
+
+async function loadMatches(){
+
+  try{
+
+    const endpoint =
+      currentUser.role === "provider"
+      ? "/provider/matches"
+      : "/client/matches";
+
+    const data =
+      await api(endpoint);
+
+    return data.matches || [];
+
+  }catch(_){
+
+    return [];
+  }
+}
+
+
+// ======================================
+// COMPLETE REQUEST
+// ======================================
+
+async function completeRequest(
+  requestId
+){
+
+  try{
+
+    if(
+      !confirm(
+        "Mark this request as completed?"
+      )
+    ){
+
+      return;
+    }
+
+    await api(
+      `/requests/${requestId}/complete`,
+      {
+        method:"PUT"
+      }
+    );
+
+    stopLocationWatch();
+
+    toast(
+      "Request completed and moved to History."
+    );
+
+    selectedRequestId =
+      null;
+
+    go("history");
+
+  }catch(error){
+
+    toast(error.message);
+  }
+}
+
+
+// ======================================
+// HISTORY
+// ======================================
+
+async function historyScreen(){
+
+  try{
+
+    const data =
+      await api("/history");
+
+    const rows =
+      data.history || [];
+
+    return `
+
+      <div class="card">
+
+        <h2>
+          History
+        </h2>
+
+        <div class="muted small">
+          Your completed COME BY requests.
+        </div>
+
+      </div>
+
+      ${
+        rows.length
+        ? rows.map(h => {
+
+            const otherName =
+              currentUser.id === h.client_id
+              ? h.provider_name
+              : h.client_name;
+
+            const otherPhone =
+              currentUser.id === h.client_id
+              ? h.provider_phone
+              : h.client_phone;
+
+            return `
+
+              <div class="card">
+
+                <span class="pill">
+                  COMPLETED
+                </span>
+
+                <h3>
+                  ${esc(otherName || "")}
+                </h3>
+
+                <div class="muted small">
+                  ${esc(h.assistance_type)}
+                  ·
+                  ${esc(h.transport_type)}
+                </div>
+
+                <div
+                  class="small"
+                  style="margin-top:8px"
+                >
+                  ${esc(h.area)}
+                </div>
+
+                ${
+                  h.amount !== null &&
+                  h.amount !== undefined
+                  ? `
+                    <div
+                      class="gold small"
+                      style="margin-top:6px"
+                    >
+                      P${esc(h.amount)}
+                    </div>
+                  `
+                  : ""
+                }
+
+                ${
+                  otherPhone
+                  ? `
+                    <div
+                      class="phone"
+                      style="margin-top:10px"
+                    >
+                      ☎ ${esc(otherPhone)}
+                    </div>
+                  `
+                  : ""
+                }
+
+                ${
+                  h.completed_at
+                  ? `
+                    <div
+                      class="muted small"
+                      style="margin-top:8px"
+                    >
+                      ${new Date(
+                        h.completed_at
+                      ).toLocaleString()}
+                    </div>
+                  `
+                  : ""
+                }
+
+              </div>
+            `;
+          }).join("")
+        : `
+          <div class="card">
+            <div class="empty">
+              No completed requests yet.
+            </div>
+          </div>
+        `
+      }
+
+    `;
+
+  }catch(error){
+
+    return `
+      <div class="card">
+        <div class="red">
+          ${esc(error.message)}
+        </div>
+      </div>
+    `;
+  }
+}
+
+
+// ======================================
+// LIVE MAP
+// ======================================
+
+function openLiveMap(
+  requestId
+){
+
+  selectedRequestId =
+    requestId;
+
+  currentScreen =
+    "map";
+
+  render();
+}
+
+function mapScreen(){
+
+  if(currentUser.role !== "client"){
+
+    return `
+
+      <div class="card">
+
+        <h2>
+          Live Location
+        </h2>
+
+        <div class="mapnote">
+
+          When you show interest in a request,
+          your device can share your GPS
+          location with the relevant client.
+
+        </div>
+
+        <div class="muted small">
+
+          Go to Requests → Show Interest and
+          allow location access when prompted.
+
+        </div>
+
+        ${
+          locationSharing
+          ? `
+            <br>
+
+            <button
+              class="btn danger"
+              onclick="stopLocationWatch()"
+            >
+              STOP SHARING LOCATION
+            </button>
+          `
+          : ""
+        }
+
+      </div>
+    `;
+  }
+
+  if(!selectedRequestId){
+
+    return `
+
+      <div class="card">
+
+        <h2>
+          Live Provider Map
+        </h2>
+
+        <div class="empty">
+          Open an accepted or active request
+          to view interested providers.
+        </div>
+
+      </div>
+    `;
+  }
+
+  return `
+
+    <div class="card">
+
+      <div class="row">
+
+        <div class="grow">
+
+          <h2 style="margin:0">
+            Live Provider Map
+          </h2>
+
+          <div class="muted small">
+            Request #${esc(selectedRequestId)}
+          </div>
+
+        </div>
+
+        <button
+          class="btn secondary small-btn"
+          onclick="go('requests')"
+        >
+          BACK
+        </button>
+
+      </div>
+
+      <div class="mapnote" style="margin-top:12px">
+
+        📍 This map shows providers who have
+        shown interest in this request and
+        are actively sharing their live GPS
+        location.
+
+        <br><br>
+
+        Locations update automatically.
+
+      </div>
+
+      <div
+        id="liveMap"
+        class="map"
+      ></div>
+
+      <div
+        id="locationCount"
+        class="locdot"
+        style="margin-top:9px"
+      >
+        Waiting for live provider locations...
+      </div>
+
+    </div>
+  `;
+}
+
+function initLiveMap(
+  requestId
+){
+
+  const el =
+    $("liveMap");
+
+  if(!el){
+    return;
+  }
+
+  stopLivePolling();
+
+  if(liveMap){
+
+    liveMap.remove();
+
+    liveMap =
+      null;
+  }
+
+  liveMap =
+    L.map(el)
+      .setView(
+        [-24.6282,25.9231],
+        12
+      );
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom:19,
+      attribution:
+        "© OpenStreetMap"
+    }
+  ).addTo(liveMap);
+
+  refreshLiveLocations(
+    requestId
+  );
+
+  livePollTimer =
+    setInterval(
+      () =>
+        refreshLiveLocations(
+          requestId
+        ),
+      3000
+    );
+}
+
+function stopLivePolling(){
+
+  if(livePollTimer){
+
+    clearInterval(
+      livePollTimer
+    );
+
+    livePollTimer =
+      null;
+  }
+}
+
+async function refreshLiveLocations(
+  requestId
+){
+
+  try{
+
+    const data =
+      await api(
+        `/requests/${requestId}/live-locations`
+      );
+
+    const locations =
+      data.locations || [];
+
+    if(!liveMap){
+      return;
+    }
+
+    liveMap.eachLayer(
+      layer => {
+
+        if(
+          layer instanceof L.Marker
+        ){
+
+          layer.remove();
+        }
+      }
+    );
+
+    const bounds = [];
+
+    locations.forEach(
+      provider => {
+
+        const marker =
+          L.marker([
+            provider.lat,
+            provider.lng
+          ])
+          .addTo(liveMap);
+
+        marker.bindPopup(`
+
+          <strong>
+            ${esc(provider.name)}
+          </strong>
+
+          <br>
+
+          ${
+            provider.age
+            ? "Age: " +
+              esc(provider.age) +
+              "<br>"
+            : ""
+          }
+
+          <span class="gold">
+            ● LIVE
+          </span>
+
+        `);
+
+        bounds.push([
+          provider.lat,
+          provider.lng
+        ]);
+      }
+    );
+
+    if(bounds.length){
+
+      liveMap.fitBounds(
+        bounds,
+        {
+          padding:[30,30],
+          maxZoom:15
+        }
+      );
+    }
+
+    const count =
+      $("locationCount");
+
+    if(count){
+
+      count.textContent =
+        locations.length +
+        " interested provider" +
+        (
+          locations.length === 1
+          ? ""
+          : "s"
+        ) +
+        " currently sharing live location.";
+    }
+
+  }catch(error){
+
+    console.error(
+      "LIVE LOCATION ERROR",
+      error
+    );
+  }
+}
+
+
+// ======================================
+// GPS
+// ======================================
+
+function getCurrentPosition(){
+
+  return new Promise(
+    (resolve,reject) => {
+
+      if(
+        !navigator.geolocation
+      ){
+
+        reject(
+          new Error(
+            "GPS is not supported on this device."
+          )
+        );
+
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        resolve,
+        reject,
+        {
+          enableHighAccuracy:true,
+          timeout:10000,
+          maximumAge:5000
+        }
+      );
+    }
+  );
+}
+
+function startLocationSharing(){
+
+  if(
+    locationWatchId !== null
+  ){
+
+    return;
+  }
+
+  if(
+    !navigator.geolocation
+  ){
+
+    toast(
+      "GPS is not available on this device."
+    );
+
+    return;
+  }
+
+  locationSharing =
+    true;
+
+  locationWatchId =
+    navigator.geolocation.watchPosition(
+
+      async position => {
+
+        try{
+
+          await api(
+            "/location",
+            {
+              method:"PUT",
+              body:{
+                latitude:
+                  position.coords.latitude,
+
+                longitude:
+                  position.coords.longitude
+              }
+            }
+          );
+
+        }catch(error){
+
+          console.error(
+            "GPS UPDATE ERROR",
+            error
+          );
+        }
+      },
+
+      error => {
+
+        console.error(
+          "GPS ERROR",
+          error
+        );
+
+        locationSharing =
+          false;
+
+        locationWatchId =
+          null;
+
+        toast(
+          "Location sharing could not be started."
+        );
+      },
+
+      {
+        enableHighAccuracy:true,
+        maximumAge:3000,
+        timeout:10000
+      }
+    );
+}
+
+async function stopLocationWatch(){
+
+  if(
+    locationWatchId !== null
+  ){
+
+    navigator.geolocation.clearWatch(
+      locationWatchId
+    );
+
+    locationWatchId =
+      null;
+  }
+
+  if(!locationSharing){
+
+    return;
+  }
+
+  locationSharing =
+    false;
+
+  try{
+
+    await api(
+      "/location/stop",
+      {
+        method:"PUT"
+      }
+    );
+
+    toast(
+      "Location sharing stopped."
+    );
+
+  }catch(error){
+
+    console.error(error);
+  }
+}
+
+
+// ======================================
+// CHAT LIST
+// ======================================
+
+async function chatListScreen(){
+
+  try{
+
+    const data =
+      await api("/chats");
+
+    const chats =
+      data.chats || [];
+
+    return `
+
+      <div class="card">
+
+        <h2>
+          Private Chats
+        </h2>
+
+        <div class="muted small">
+          Conversations are available
+          after a provider is accepted.
+        </div>
+
+      </div>
+
+      ${
+        chats.length
+        ? chats.map(c => {
+
+            const other =
+              currentUser.id === c.client_id
+              ? c.provider_name
+              : c.client_name;
+
+            const phone =
+              currentUser.id === c.client_id
+              ? c.provider_phone
+              : c.client_phone;
+
+            return `
+
+              <div class="card">
+
+                <h3>
+                  ${esc(other)}
+                </h3>
+
+                ${
+                  phone
+                  ? `
+                    <div class="phone">
+                      ☎ ${esc(phone)}
+                    </div>
+                  `
+                  : ""
+                }
+
+                <button
+                  class="btn"
+                  style="margin-top:11px"
+                  onclick="openChat(
+                    ${c.request_id}
+                  )"
+                >
+                  OPEN CHAT
+                </button>
+
+              </div>
+            `;
+
+          }).join("")
+        : `
+          <div class="card">
+            <div class="empty">
+              No private chats yet.
+            </div>
+          </div>
+        `
+      }
+
+    `;
+  }catch(error){
+
+    return `
+      <div class="card">
+        <div class="red">
+          ${esc(error.message)}
+        </div>
+      </div>
+    `;
+  }
+}
+
+
+// ======================================
+// OPEN CHAT
+// ======================================
+
+async function openChat(
+  requestId
+){
+
+  try{
+
+    const data =
+      await api(
+        `/chats/${requestId}/messages`
+      );
+
+    messages =
+      data.messages || [];
+
+    selectedRequestId =
+      requestId;
+
+    currentScreen =
+      "chat";
+
+    render();
+
+  }catch(error){
+
+    toast(error.message);
+  }
+}
+
+function chatScreen(){
+
+  return `
+
+    <div class="card">
+
+      <div class="row">
+
+        <div class="grow">
+
+          <h2 style="margin:0">
+            Private Chat
+          </h2>
+
+          <div class="muted small">
+            Request #${esc(selectedRequestId)}
+          </div>
+
+        </div>
+
+        <button
+          class="btn secondary small-btn"
+          onclick="go('requests')"
+        >
+          BACK
+        </button>
+
+      </div>
+
+      <div
+        id="chatBox"
+        style="
+          height:400px;
+          overflow-y:auto;
+          margin-top:13px;
+          padding:4px;
+        "
+      >
+
+        ${
+          messages.length
+          ? messages.map(
+              m => `
+
+                <div
+                  class="msg ${
+                    m.sender_id === currentUser.id
+                    ? "mine"
+                    : ""
+                  }"
+                >
+
+                  <strong>
+                    ${esc(m.sender_name || "")}
+                  </strong>
+
+                  <br>
+
+                  ${esc(m.body)}
+
+                  <div
+                    class="muted"
+                    style="font-size:9px;margin-top:4px"
+                  >
+                    ${new Date(
+                      m.created_at
+                    ).toLocaleString()}
+                  </div>
+
+                </div>
+              `
+            ).join("")
+          : `
+            <div class="empty">
+              Start the private conversation.
+            </div>
+          `
+        }
+
+      </div>
+
+      <div
+        class="row"
+        style="margin-top:10px"
+      >
+
+        <input
+          id="chatInput"
+          placeholder="Write a private message..."
+          onkeydown="
+            if(event.key==='Enter')
+              sendMessage()
+          "
+        >
+
+        <button
+          class="btn"
+          style="width:100px"
+          onclick="sendMessage()"
+        >
+          SEND
+        </button>
+
+      </div>
+
+    </div>
+  `;
+}
+
+async function sendMessage(){
+
+  try{
+
+    const input =
+      $("chatInput");
+
+    const body =
+      input.value.trim();
+
+    if(!body){
+      return;
+    }
+
+    await api(
+      `/chats/${selectedRequestId}/messages`,
+      {
+        method:"POST",
+        body:{
+          body
+        }
+      }
+    );
+
+    openChat(
+      selectedRequestId
+    );
+
+  }catch(error){
+
+    toast(error.message);
+  }
+}
+
+
+// ======================================
+// PROFILE
+// ======================================
+
+function profileScreen(){
+
+  return `
+
+    <div class="card">
+
+      <div class="row">
+
+        <div class="grow">
+
+          <h2 style="margin:0">
+            ${esc(currentUser.name)}
+          </h2>
+
+          <div class="muted">
+            ${esc(currentUser.role)}
+          </div>
+
+          <div class="phone">
+            ☎ ${esc(currentUser.phone)}
+          </div>
+
+        </div>
+
+        <span class="pill">
+          #TlaKwana
+        </span>
+
+      </div>
+
+      <label>
+        Age
+      </label>
+
+      <input
+        id="profile-age"
+        type="number"
+        min="18"
+        max="100"
+        value="${esc(currentUser.age || "")}"
+      >
+
+      <br>
+
+      <button
+        class="btn"
+        onclick="saveProfile()"
+      >
+        SAVE PROFILE
+      </button>
+
+    </div>
+
+    ${
+      currentUser.role === "provider"
+      ? `
+
+        <div class="card">
+
+          <div class="toggle">
+
+            <div>
+
+              <strong>
+                Provider Availability
+              </strong>
+
+              <div class="muted small">
+
+                ${
+                  currentUser.available
+                  ? "You are AVAILABLE."
+                  : "You are NOT AVAILABLE."
+                }
+
+              </div>
+
+            </div>
+
+            <button
+              class="switch ${
+                currentUser.available
+                ? "on"
+                : ""
+              }"
+              onclick="toggleAvailability()"
+            >
+              <i></i>
+            </button>
+
+          </div>
+
+          <div class="line"></div>
+
+          <label>
+            Provider photos — up to 3
+          </label>
+
+          <input
+            id="profile-photos"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+          >
+
+          <br>
+
+          <button
+            class="btn secondary"
+            onclick="uploadPhotos()"
+          >
+            UPLOAD PHOTOS
+          </button>
+
+          ${
+            currentUser.photos?.length
+            ? `
+              <div class="photos">
+
+                ${
+                  currentUser.photos
+                    .slice(0,3)
+                    .map(
+                      p => `
+                        <img
+                          src="${esc(p)}"
+                          alt="Profile photo"
+                        >
+                      `
+                    )
+                    .join("")
+                }
+
+              </div>
+            `
+            : ""
+          }
+
+        </div>
+
+      `
+      : ""
+    }
+
+    <div class="card">
+
+      <button
+        class="btn secondary"
+        onclick="go('chatlist')"
+      >
+        PRIVATE CHATS
+      </button>
+
+      <br><br>
+
+      ${
+        locationSharing
+        ? `
+          <button
+            class="btn danger"
+            onclick="stopLocationWatch()"
+          >
+            STOP LOCATION SHARING
+          </button>
+
+          <br><br>
+        `
+        : ""
+      }
+
+      <button
+        class="btn secondary"
+        onclick="logout()"
+      >
+        LOG OUT
+      </button>
+
+    </div>
+  `;
+}
+
+async function saveProfile(){
+
+  try{
+
+    const age =
+      $("profile-age")
+        .value;
+
+    const data =
+      await api(
+        "/profile",
+        {
+          method:"PUT",
+          body:{
+            age
+          }
+        }
+      );
+
+    currentUser =
+      data.user;
+
+    toast(
+      "Profile saved."
+    );
+
+    render();
+
+  }catch(error){
+
+    toast(error.message);
+  }
+}
+
+
+// ======================================
+// PHOTO UPLOAD
+// ======================================
 
 async function uploadPhotos(){
-try{
-let f=$('photos').files;
 
-if(f.length<1||f.length>3)
-return toast('Choose 1 to 3 photos');
+  try{
 
-let fd=new FormData();
+    const files =
+      [
+        ...$("profile-photos").files
+      ].slice(0,3);
 
-[...f].forEach(x=>fd.append('photos',x));
+    if(!files.length){
 
-let r=await fetch(A+'/profile/photos',{
-method:'POST',
-headers:{
-Authorization:'Bearer '+localStorage.cb_token
-},
-body:fd
-});
+      throw new Error(
+        "Choose up to 3 photos first."
+      );
+    }
 
-let d=await r.json();
+    const form =
+      new FormData();
 
-if(!r.ok)throw Error(d.error);
+    files.forEach(
+      file =>
+        form.append(
+          "photos",
+          file
+        )
+    );
 
-S.user=d.user;
+    const response =
+      await fetch(
+        API + "/profile/photos",
+        {
+          method:"POST",
+          headers:{
+            Authorization:
+              "Bearer " + token
+          },
+          body:form
+        }
+      );
 
-toast('Photos uploaded');
-render()
-}catch(e){
-toast(e.message)
-}
-}
+    const data =
+      await response.json();
 
-function map(){
-setTimeout(()=>{
-if(S.map)return;
+    if(!response.ok){
 
-S.map=L.map('map').setView(
-[-24.6282,25.9231],
-13
-);
+      throw new Error(
+        data.error ||
+        "Photo upload failed."
+      );
+    }
 
-L.tileLayer(
-'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-{
-attribution:'© OpenStreetMap'
-}
-).addTo(S.map);
+    currentUser =
+      data.user;
 
-navigator.geolocation?.getCurrentPosition(
-p=>{
-let a=[
-p.coords.latitude,
-p.coords.longitude
-];
+    toast(
+      "Photos updated."
+    );
 
-S.map.setView(a,15);
+    render();
 
-L.marker(a)
- .addTo(S.map)
- .bindPopup(
-  'Your location — visible only on your device until you choose to share it.'
- )
- .openPopup()
+  }catch(error){
 
-}
-)
-},50);
-
-return `
-
- <div class="card">
-  <h2>Live location</h2>  <p class="muted">
-   Real GPS map. Location sharing is consent-based and should only be shared with the person you accepted.
-  </p>  <div id="map" class="map"></div>
- </div>`
-}async function render(){
-if(!S.user){
-$('app').innerHTML=auth();
-return
+    toast(error.message);
+  }
 }
 
-S.map=null;
 
-let body=
-S.screen==='home'?home():
-S.screen==='requests'?await requests():
-S.screen==='providers'?providerScreen():
-S.screen==='chats'?await chats():
-S.screen==='chat'?chat():
-S.screen==='profile'?profile():
-S.screen==='map'?map():
-home();
-
-$('app').innerHTML=
-head()+
-'<main>'+body+'</main>'+
-nav();
-
-if(
-S.user.role==='provider'&&
-S.screen==='home'
-){
-try{
-let d=await api('/requests');
-
-$('providerList').innerHTML=
-d.requests.length?
-d.requests.slice(0,5).map(r=>`
-<div class="card">
-<span class="pill">${r.assistance_type}</span>
-<span class="pill">${r.transport_type}</span>
-
-   <h3>${r.area}</h3>
-
-   <p class="muted">
-    ${r.details||''}
-   </p>
-
-   <button class="btn"
-    onclick="interest(${r.id})">
-    I'M INTERESTED
-   </button>
-  </div>
- `).join('')
- :
- 'No open requests.';
-
-}catch(e){}
-}
-}
+// ======================================
+// START
+// ======================================
 
 boot();
+
 </script>
 
 </body>
-  </html>
+</html>
