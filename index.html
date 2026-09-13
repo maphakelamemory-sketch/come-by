@@ -1,1914 +1,667 @@
 <!doctype html>
-<html lang="en">
+
+<html>
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#111827">
-<meta name="description" content="COME BY — connect clients with providers for lawful, non-sexual companionship and assistance.">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg">
+<meta name="theme-color" content="#0c0c0d">
 <title>COME BY</title>
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{
-  --bg:#f6f7fb;
-  --card:#fff;
-  --ink:#111827;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --good:#15803d;
-  --danger:#b91c1c;
-}
-
+:root{--bg:#09090b;--card:#151519;--soft:#202027;--ink:#fff;--muted:#a1a1aa;--gold:#d7b46a;--line:#2b2b32}
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:var(--bg);
-  color:var(--ink);
-}
-
-button,input,select,textarea{font:inherit}
-button{cursor:pointer}
-
-.app{
-  max-width:520px;
-  margin:auto;
-  min-height:100vh;
-  background:var(--bg);
-}
-
-header{
-  position:sticky;
-  top:0;
-  z-index:5;
-  background:#ffffffef;
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-  padding:14px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.brand{
-  font-weight:900;
-  letter-spacing:-.04em;
-  font-size:25px;
-}
-
-.tag{
-  font-size:11px;
-  color:var(--muted);
-}
-
-main{
-  padding:18px 16px 92px;
-}
-
-.hero{
-  background:#111827;
-  color:#fff;
-  border-radius:24px;
-  padding:24px;
-  margin-bottom:16px;
-}
-
-.hero h1{
-  font-size:31px;
-  line-height:1;
-  margin:0 0 10px;
-}
-
-.hero p{
-  color:#d1d5db;
-  margin:0;
-  line-height:1.45;
-}
-
-.pill{
-  display:inline-flex;
-  padding:7px 10px;
-  border-radius:99px;
-  background:#fff;
-  color:#111827;
-  font-size:12px;
-  font-weight:800;
-  margin-bottom:14px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:12px;
-}
-
-.action{
-  border:0;
-  background:#111827;
-  color:#fff;
-  border-radius:14px;
-  padding:13px 16px;
-  font-weight:800;
-  width:100%;
-}
-
-.secondary{
-  background:#fff;
-  color:#111827;
-  border:1px solid var(--line);
-}
-
-.field{
-  margin-bottom:13px;
-}
-
-.field label{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  margin-bottom:6px;
-}
-
-.field input,
-.field select,
-.field textarea{
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px;
-  background:#fff;
-  outline:none;
-}
-
-.field textarea{
-  min-height:90px;
-  resize:vertical;
-}
-
-.nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  max-width:520px;
-  width:100%;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  background:#fff;
-  border-top:1px solid var(--line);
-  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
-  z-index:8;
-}
-
-.nav button{
-  background:none;
-  border:0;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  padding:7px;
-}
-
-.nav button.active{
-  color:#111827;
-}
-
-.row{
-  display:flex;
-  gap:10px;
-  align-items:center;
-}
-
-.avatar{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  background:#e5e7eb;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-}
-
-.grow{flex:1}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+.app{max-width:540px;margin:auto;min-height:100vh;background:var(--bg)}
+header{position:sticky;top:0;z-index:10;padding:16px 18px;background:#09090dec;border-bottom:1px solid var(--line);backdrop-filter:blur(15px);display:flex;justify-content:space-between}
+.brand{font-weight:950;font-size:26px;letter-spacing:-1px}
+.gold{color:var(--gold)}
+main{padding:18px 16px 90px}
+.hero{padding:25px;border:1px solid #353039;border-radius:26px;background:radial-gradient(circle at top right,#40301b,#151519 48%);margin-bottom:15px}
+.hero h1{font-size:34px;line-height:1;margin:5px 0 12px}
 .muted{color:var(--muted)}
-.small{font-size:12px}
-
-.offer{
-  font-weight:900;
-  font-size:18px;
-}
-
-.status{
-  font-size:11px;
-  font-weight:800;
-  padding:5px 8px;
-  border-radius:99px;
-  background:#ecfdf5;
-  color:var(--good);
-}
-
-.empty{
-  text-align:center;
-  padding:28px 10px;
-  color:var(--muted);
-}
-
-.back{
-  border:0;
-  background:none;
-  font-weight:800;
-  padding:0;
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:80px;
-  transform:translateX(-50%);
-  background:#111827;
-  color:#fff;
-  padding:12px 16px;
-  border-radius:12px;
-  font-size:13px;
-  z-index:20;
-  display:none;
-}
-
-.toast.show{
-  display:block;
-}
-
-/* AUTH */
-
-.auth{
-  min-height:100vh;
-  padding:28px 18px;
-  display:flex;
-  align-items:center;
-}
-
-.authbox{
-  width:100%;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 12px 40px #11182712;
-}
-
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  background:#f3f4f6;
-  border-radius:12px;
-  padding:4px;
-  margin:18px 0;
-}
-
-.tabs button{
-  border:0;
-  background:none;
-  border-radius:9px;
-  padding:10px;
-  font-weight:800;
-  color:var(--muted);
-}
-
-.tabs button.active{
-  background:#fff;
-  color:#111827;
-  box-shadow:0 1px 4px #0001;
-}
-
-.role{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:10px 0 15px;
-}
-
-.role button{
-  border:1px solid var(--line);
-  background:#fff;
-  border-radius:12px;
-  padding:12px;
-  font-weight:800;
-}
-
-.role button.active{
-  background:#111827;
-  color:#fff;
-}
-
-.error{
-  background:#fef2f2;
-  color:var(--danger);
-  border-radius:10px;
-  padding:10px;
-  font-size:12px;
-  margin-bottom:12px;
-}
-
-.map{
-  height:250px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#eef2f7,#dfe5ec);
-  position:relative;
-  overflow:hidden;
-}
-
-.map:before,
-.map:after{
-  content:"";
-  position:absolute;
-  background:#fff8;
-  width:140%;
-  height:16px;
-  top:42%;
-  left:-15%;
-  transform:rotate(-19deg);
-  box-shadow:0 38px 0 #ffffffaa;
-}
-
-.map:after{
-  top:65%;
-  transform:rotate(27deg);
-}
-
-.pin{
-  position:absolute;
-  width:16px;
-  height:16px;
-  border:4px solid #fff;
-  border-radius:50%;
-  background:#111827;
-  box-shadow:0 3px 12px #0005;
-  z-index:2;
-}
-
-.pin.client{
-  left:47%;
-  top:42%;
-}
-
-.pin.provider{
-  left:68%;
-  top:60%;
-  background:#2563eb;
-}
-
-.legend{
-  display:flex;
-  gap:14px;
-  margin-top:8px;
-  font-size:11px;
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  display:inline-block;
-  margin-right:4px;
-}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:17px;margin-bottom:13px}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice button,.btn{border:1px solid var(--line);background:#19191f;color:#fff;border-radius:15px;padding:14px;font-weight:850}
+.choice button.active{border-color:var(--gold);background:#292216;color:var(--gold)}
+.btn{width:100%;background:var(--gold);color:#111;border:0}
+.btn.secondary{background:transparent;color:#fff;border:1px solid var(--line)}
+label{font-size:12px;font-weight:800;display:block;margin:10px 0 6px}
+input,textarea{width:100%;background:#0e0e12;color:#fff;border:1px solid var(--line);border-radius:13px;padding:12px}
+textarea{min-height:85px}
+.profilepic{width:74px;height:74px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.photos{display:flex;gap:8px;overflow:auto}
+.photos img{width:88px;height:88px;object-fit:cover;border-radius:14px}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:540px;width:100%;background:#111114;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px}
+.nav button{background:none;border:0;color:var(--muted);padding:8px;font-size:11px}
+.nav .active{color:var(--gold)}
+.tag{font-size:11px;color:var(--muted)}
+.row{display:flex;gap:12px;align-items:center}
+.grow{flex:1}
+.pill{display:inline-block;border:1px solid #594a2e;color:var(--gold);padding:5px 8px;border-radius:99px;font-size:11px}
+.map{height:290px;border-radius:20px;overflow:hidden}
+.auth{min-height:100vh;padding:28px 18px;display:flex;align-items:center}
+.authbox{width:100%;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:#0e0e12;border-radius:12px;padding:4px;margin:18px 0}
+.tabs button{border:0;background:none;color:var(--muted);padding:10px;border-radius:9px;font-weight:800}
+.tabs .active{background:#24242b;color:#fff}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:11px 15px;border-radius:12px;display:none;z-index:30}
+.toast.show{display:block}
+.msg{padding:10px 13px;border-radius:15px;background:#202027;margin:7px 0;max-width:82%}
+.mine{margin-left:auto;background:#3b3221;color:#fff}
+.hidden{display:none}
 </style>
 </head>
-
 <body>
-
-<div class="app" id="app"></div>
-<div id="toast" class="toast"></div>
-
-<script>
-
-const API="/api";
-
-const state={
-  screen:"home",
-  user:null,
-  requests:JSON.parse(localStorage.getItem("cb_requests")||"[]"),
-  location:null,
-  selected:null,
-  authMode:"login",
-  authRole:"client",
-  authBusy:false
+<div id="app"></div>
+<div id="toast" class="toast"></div><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>
+const A='/api';
+let S={
+ user:null,
+ screen:'home',
+ requests:[],
+ chats:[],
+ selected:null,
+ auth:'login',
+ role:'client',
+ assistance:'SHORT TIME',
+ transport:'PICK & DROP',
+ map:null
 };
 
-const demo=[
-  {name:"Thabo",initial:"T",rating:4.9,distance:"1.8 km"},
-  {name:"Kago",initial:"K",rating:4.8,distance:"3.2 km"},
-  {name:"Neo",initial:"N",rating:4.7,distance:"4.6 km"}
-];
+const $=id=>document.getElementById(id);
 
-function save(){
-  localStorage.setItem(
-    "cb_requests",
-    JSON.stringify(state.requests)
-  );
+async function api(p,o={}){
+ o.headers={
+  'Content-Type':'application/json',
+  ...(o.headers||{}),
+  ...(localStorage.cb_token?{Authorization:'Bearer '+localStorage.cb_token}:{})
+ };
+ let r=await fetch(A+p,o),d=await r.json();
+ if(!r.ok)throw Error(d.error||'Request failed');
+ return d
 }
 
-function toast(message){
-  const e=document.getElementById("toast");
-  e.textContent=message;
-  e.classList.add("show");
-
-  setTimeout(()=>{
-    e.classList.remove("show");
-  },2200);
-}
-
-async function api(path,options={}){
-  const token=localStorage.getItem("cb_token");
-
-  options.headers={
-    ...(options.headers||{}),
-    "Content-Type":"application/json",
-    ...(token ? {Authorization:"Bearer "+token} : {})
-  };
-
-  const response=await fetch(API+path,options);
-
-  const data=await response.json().catch(()=>({}));
-
-  if(!response.ok){
-    throw new Error(
-      data.error || "Something went wrong."
-    );
-  }
-
-  return data;
+function toast(x){
+ $('toast').textContent=x;
+ $('toast').classList.add('show');
+ setTimeout(()=>$('toast').classList.remove('show'),2200)
 }
 
 async function boot(){
-
-  const token=localStorage.getItem("cb_token");
-
-  if(token){
-
-    try{
-
-      const data=await api("/auth/me");
-
-      state.user=data.user;
-
-    }catch(error){
-
-      localStorage.removeItem("cb_token");
-
-    }
-
+ if(localStorage.cb_token)
+  try{
+   S.user=(await api('/auth/me')).user
+  }catch(e){
+   localStorage.removeItem('cb_token')
   }
-
-  render();
+ render()
 }
 
 function nav(){
+ return S.user?`
+ <div class="nav">
+  <button onclick="go('home')" class="${S.screen==='home'?'active':''}">⌂<br>Home</button>
+  <button onclick="go('requests')" class="${S.screen==='requests'?'active':''}">◉<br>Requests</button>
+  <button onclick="go('map')" class="${S.screen==='map'?'active':''}">⌖<br>Map</button>
+  <button onclick="go('profile')" class="${S.screen==='profile'?'active':''}">●<br>Profile</button>
+ </div>`:''
+}
 
-  if(!state.user){
-    return "";
-  }
-
-  const items=[
-    ["home","⌂","Home"],
-    ["requests","◉","Requests"],
-    ["map","⌖","Map"],
-    ["profile","●","Profile"]
-  ];
-
-  return `
-  <div class="nav">
-
-    ${items.map(item=>`
-
-      <button
-        class="${state.screen===item[0]?"active":""}"
-        onclick="go('${item[0]}')"
-      >
-
-        <div style="font-size:19px">
-          ${item[1]}
-        </div>
-
-        ${item[2]}
-
-      </button>
-
-    `).join("")}
-
+function head(){
+ return `
+ <header>
+  <div>
+   <div class="brand">COME <span class="gold">BY</span></div>
+   <div class="tag">PRIVATE PERSONAL ASSISTANCE</div>
   </div>
-  `;
+  <span class="pill">${S.user?.role?.toUpperCase()||''}</span>
+ </header>`
 }
 
-function header(){
-
-  return `
-  <header>
-
-    <div>
-
-      <div class="brand">
-        COME BY
-      </div>
-
-      <div class="tag">
-        Connect. Choose. Meet.
-      </div>
-
-    </div>
-
-    ${
-      state.user
-      ?
-      `<div class="small muted">
-        ${state.user.role==="client"?"CLIENT":"PROVIDER"}
-      </div>`
-      :
-      ""
-    }
-
-  </header>
-  `;
-}
-
-function go(screen){
-
-  if(!state.user){
-    auth();
-    return;
-  }
-
-  state.screen=screen;
-  render();
+function go(x){
+ S.screen=x;
+ render()
 }
 
 function auth(){
+ return `
+ <div class="auth">
+  <div class="authbox">
+   <div class="brand">COME <span class="gold">BY</span></div>
+   <p class="muted">Connect. Choose. Meet.</p>
 
-  state.screen="auth";
-  render();
+   <div class="tabs">
+    <button class="${S.auth==='login'?'active':''}" onclick="S.auth='login';render()">Log in</button>
+    <button class="${S.auth==='signup'?'active':''}" onclick="S.auth='signup';render()">Sign up</button>
+   </div>
 
-}
+   ${S.auth==='signup'?'<label>Full name</label><input id="name" placeholder="Your name">':''}
 
-function setAuthMode(mode){
+   <label>Phone</label>
+   <input id="phone" placeholder="+267 ...">
 
-  state.authMode=mode;
-  render();
+   <label>Password</label>
+   <input id="pass" type="password" placeholder="At least 6 characters">
 
-}
+   ${S.auth==='signup'?`
+   <label>Join as</label>
+   <div class="choice">
+    <button class="${S.role==='client'?'active':''}" onclick="S.role='client';render()">Client</button>
+    <button class="${S.role==='provider'?'active':''}" onclick="S.role='provider';render()">Provider</button>
+   </div>`:''}
 
-function setAuthRole(role){
+   <br>
+   <button class="btn" onclick="submitAuth()">
+    ${S.auth==='login'?'Log in':'Create account'}
+   </button>
 
-  state.authRole=role;
-  render();
-
-}
-
-function authScreen(){
-
-  return `
-
-  <div class="auth">
-
-    <div class="authbox">
-
-      <div class="brand">
-        COME BY
-      </div>
-
-      <p class="muted">
-        Connect. Choose. Meet.
-      </p>
-
-      <div class="tabs">
-
-        <button
-          class="${state.authMode==="login"?"active":""}"
-          onclick="setAuthMode('login')"
-        >
-          Log in
-        </button>
-
-        <button
-          class="${state.authMode==="signup"?"active":""}"
-          onclick="setAuthMode('signup')"
-        >
-          Sign up
-        </button>
-
-      </div>
-
-      ${
-        state.authMode==="signup"
-        ?
-        `
-        <div class="field">
-
-          <label>
-            Full name
-          </label>
-
-          <input
-            id="authName"
-            placeholder="Your name"
-          >
-
-        </div>
-        `
-        :
-        ""
-      }
-
-      <div class="field">
-
-        <label>
-          Phone number
-        </label>
-
-        <input
-          id="authPhone"
-          type="tel"
-          placeholder="+267 ..."
-        >
-
-      </div>
-
-      <div class="field">
-
-        <label>
-          Password
-        </label>
-
-        <input
-          id="authPassword"
-          type="password"
-          placeholder="At least 6 characters"
-        >
-
-      </div>
-
-      ${
-        state.authMode==="signup"
-        ?
-        `
-        <label style="font-size:12px;font-weight:800">
-          I am joining as
-        </label>
-
-        <div class="role">
-
-          <button
-            class="${state.authRole==="client"?"active":""}"
-            onclick="setAuthRole('client')"
-          >
-            Client
-          </button>
-
-          <button
-            class="${state.authRole==="provider"?"active":""}"
-            onclick="setAuthRole('provider')"
-          >
-            Provider
-          </button>
-
-        </div>
-        `
-        :
-        ""
-      }
-
-      <div id="authMsg"></div>
-
-      <button
-        class="action"
-        onclick="submitAuth()"
-      >
-        ${
-          state.authMode==="login"
-          ?
-          "Log in"
-          :
-          "Create account"
-        }
-      </button>
-
-      <p class="small muted" style="margin-top:14px">
-
-        COME BY is for lawful, non-sexual companionship
-        and assistance. Never share your exact location publicly.
-
-      </p>
-
-    </div>
-
+   <p class="muted" style="font-size:12px">
+    Lawful, non-sexual personal assistance. Exact locations are shared only with consent.
+   </p>
   </div>
-
-  `;
+ </div>`
 }
 
 async function submitAuth(){
-
-  if(state.authBusy){
-    return;
-  }
-
-  const msg=document.getElementById("authMsg");
-
-  const phone=
-    document.getElementById("authPhone")?.value.trim();
-
-  const password=
-    document.getElementById("authPassword")?.value;
-
-  if(!phone || !password){
-
-    msg.innerHTML=`
-      <div class="error">
-        Phone number and password are required.
-      </div>
-    `;
-
-    return;
-  }
-
-  try{
-
-    let data;
-
-    if(state.authMode==="signup"){
-
-      const name=
-        document.getElementById("authName")?.value.trim();
-
-      if(!name){
-
-        throw new Error(
-          "Full name is required."
-        );
-
-      }
-
-      data=await api(
-        "/auth/register",
-        {
-          method:"POST",
-          body:JSON.stringify({
-            name:name,
-            phone:phone,
-            password:password,
-            role:state.authRole
-          })
-        }
-      );
-
-    }else{
-
-      data=await api(
-        "/auth/login",
-        {
-          method:"POST",
-          body:JSON.stringify({
-            phone:phone,
-            password:password
-          })
-        }
-      );
-
-    }
-
-    localStorage.setItem(
-      "cb_token",
-      data.token
-    );
-
-    state.user=data.user;
-    state.screen="home";
-
-    toast(
-      state.authMode==="signup"
-      ?
-      "Account created"
-      :
-      "Welcome back"
-    );
-
-    render();
-
-  }catch(error){
-
-    msg.innerHTML=`
-      <div class="error">
-        ${error.message}
-      </div>
-    `;
-
-  }
-
-}
-function render(){
-
-  const app=document.getElementById("app");
-
-  if(!state.user){
-
-    app.innerHTML=authScreen();
-    return;
-
-  }
-
-  let content="";
-
-  if(state.screen==="home"){
-    content=homeScreen();
-  }
-
-  if(state.screen==="requests"){
-    content=requestsScreen();
-  }
-
-  if(state.screen==="map"){
-    content=mapScreen();
-  }
-
-  if(state.screen==="profile"){
-    content=profileScreen();
-  }
-
-  if(state.screen==="create"){
-    content=createRequestScreen();
-  }
-
-  if(state.screen==="request"){
-    content=requestDetailScreen();
-  }
-
-  app.innerHTML=
-    header()+
-    `<main>${content}</main>`+
-    nav();
-
-}
-
-function homeScreen(){
-
-  const client=state.user.role==="client";
-
-  return `
-
-  <div class="hero">
-
-    <span class="pill">
-      FREE TO CONNECT
-    </span>
-
-    <h1>
-      ${
-        client
-        ?
-        "Find the right person."
-        :
-        "Find people who need you."
-      }
-    </h1>
-
-    <p>
-      ${
-        client
-        ?
-        "Post what you need, review interested providers and choose who you want to meet."
-        :
-        "See suitable requests and show interest when you are available."
-      }
-    </p>
-
-  </div>
-
-  ${
-    client
-    ?
-    `
-    <div class="card">
-
-      <h3 style="margin-top:0">
-        Need a provider?
-      </h3>
-
-      <p class="muted small">
-        Create a request with your service,
-        meeting area, date and proposed amount.
-      </p>
-
-      <button
-        class="action"
-        onclick="go('create')"
-      >
-        + Create a request
-      </button>
-
-    </div>
-    `
-    :
-    `
-    <div class="card">
-
-      <h3 style="margin-top:0">
-        Available requests
-      </h3>
-
-      <p class="muted small">
-        Browse requests and express interest.
-      </p>
-
-      <button
-        class="action"
-        onclick="go('requests')"
-      >
-        View requests
-      </button>
-
-    </div>
-    `
-  }
-
-  <div class="grid">
-
-    <div class="card">
-
-      <div style="font-size:25px">
-        📍
-      </div>
-
-      <strong>
-        Location
-      </strong>
-
-      <div class="small muted">
-        Consent-based sharing
-      </div>
-
-    </div>
-
-    <div class="card">
-
-      <div style="font-size:25px">
-        🤝
-      </div>
-
-      <strong>
-        Choose
-      </strong>
-
-      <div class="small muted">
-        You stay in control
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h3 style="margin-top:0">
-      How COME BY works
-    </h3>
-
-    <p class="small muted">
-      1. Post or browse a request.
-    </p>
-
-    <p class="small muted">
-      2. Providers show interest.
-    </p>
-
-    <p class="small muted">
-      3. Client chooses a provider.
-    </p>
-
-    <p class="small muted">
-      4. Agree on the details and meet.
-    </p>
-
-    <p class="small muted">
-      There is currently no in-app payment or
-      connection fee.
-    </p>
-
-  </div>
-
-  `;
-
-}
-
-function createRequestScreen(){
-
-  return `
-
-  <div class="card">
-
-    <div class="row" style="margin-bottom:18px">
-
-      <button
-        class="back"
-        onclick="go('home')"
-      >
-        ← Back
-      </button>
-
-      <div class="grow">
-        <strong>
-          Create request
-        </strong>
-      </div>
-
-    </div>
-
-    <div class="field">
-
-      <label>
-        Service
-      </label>
-
-      <select id="reqService">
-
-        <option>
-          Social / event companion
-        </option>
-
-        <option>
-          Tour / city companion
-        </option>
-
-        <option>
-          Errands / personal assistance
-        </option>
-
-        <option>
-          General lawful assistance
-        </option>
-
-      </select>
-
-    </div>
-
-    <div class="field">
-
-      <label>
-        Date
-      </label>
-
-      <input
-        id="reqDate"
-        type="date"
-      >
-
-    </div>
-
-    <div class="field">
-
-      <label>
-        Time
-      </label>
-
-      <input
-        id="reqTime"
-        type="time"
-      >
-
-    </div>
-
-    <div class="field">
-
-      <label>
-        Meeting area
-      </label>
-
-      <input
-        id="reqArea"
-        placeholder="Example: Gaborone CBD"
-      >
-
-    </div>
-
-    <div class="field">
-
-      <label>
-        Proposed amount
-      </label>
-
-      <input
-        id="reqAmount"
-        type="number"
-        min="0"
-        placeholder="P"
-      >
-
-    </div>
-
-    <div class="field">
-
-      <label>
-        Details
-      </label>
-
-      <textarea
-        id="reqDetails"
-        placeholder="Tell providers what you need..."
-      ></textarea>
-
-    </div>
-
-    <button
-      class="action"
-      onclick="createRequest()"
-    >
-      Post request
-    </button>
-
-  </div>
-
-  <div class="card">
-
-    <strong>
-      Location privacy
-    </strong>
-
-    <p class="small muted">
-      Your exact location is not publicly displayed.
-      Only share precise location during an active
-      session when you choose to do so.
-    </p>
-
-  </div>
-
-  `;
-
-}
-
-function createRequest(){
-
-  const service=
-    document.getElementById("reqService").value;
-
-  const date=
-    document.getElementById("reqDate").value;
-
-  const time=
-    document.getElementById("reqTime").value;
-
-  const area=
-    document.getElementById("reqArea").value.trim();
-
-  const amount=
-    document.getElementById("reqAmount").value;
-
-  const details=
-    document.getElementById("reqDetails").value.trim();
-
-  if(!service || !date || !time || !area){
-
-    toast(
-      "Please complete the required fields."
-    );
-
-    return;
-  }
-
-  const request={
-
-    id:Date.now(),
-
-    clientId:state.user.id,
-
-    clientName:state.user.name,
-
-    service:service,
-
-    date:date,
-
-    time:time,
-
-    area:area,
-
-    amount:amount,
-
-    details:details,
-
-    interested:[],
-
-    status:"Open",
-
-    createdAt:new Date().toISOString()
-
+ try{
+  let body={
+   phone:$('phone').value,
+   password:$('pass').value
   };
 
-  state.requests.unshift(request);
-
-  save();
-
-  toast("Request posted");
-
-  state.screen="requests";
-
-  render();
-
-}
-
-function requestsScreen(){
-
-  const client=
-    state.user.role==="client";
-
-  let requests=state.requests;
-
-  if(!requests.length){
-
-    requests=[
-      {
-        id:"demo1",
-        clientName:"Demo Client",
-        service:"Tour / city companion",
-        date:"Today",
-        time:"15:00",
-        area:"Gaborone CBD",
-        amount:"P250",
-        details:"Looking for lawful city companionship.",
-        interested:[],
-        status:"Open",
-        demo:true
-      },
-      {
-        id:"demo2",
-        clientName:"Demo Client",
-        service:"Errands / personal assistance",
-        date:"Tomorrow",
-        time:"10:00",
-        area:"Broadhurst",
-        amount:"P180",
-        details:"Assistance with a few local errands.",
-        interested:[],
-        status:"Open",
-        demo:true
-      }
-    ];
-  }
-
-  if(client){
-
-    requests=
-      requests.filter(
-        r=>r.clientId===state.user.id || r.demo
-      );
-
-  }
-
-  return `
-
-  <div class="row" style="margin-bottom:16px">
-
-    <div class="grow">
-
-      <h2 style="margin:0">
-        ${client?"My requests":"Available requests"}
-      </h2>
-
-      <div class="small muted">
-        ${
-          client
-          ?
-          "Requests you have created"
-          :
-          "Requests from clients"
-        }
-      </div>
-
-    </div>
-
-    ${
-      client
-      ?
-      `
-      <button
-        class="action"
-        style="width:auto"
-        onclick="go('create')"
-      >
-        + New
-      </button>
-      `
-      :
-      ""
-    }
-
-  </div>
-
-  ${
-    requests.length
-    ?
-    requests.map(requestCard).join("")
-    :
-    `
-    <div class="card empty">
-      No requests yet.
-    </div>
-    `
-  }
-
-  `;
-
-}
-
-function requestCard(r){
-
-  return `
-
-  <div
-    class="card"
-    onclick="openRequest('${r.id}')"
-    style="cursor:pointer"
-  >
-
-    <div class="row">
-
-      <div class="avatar">
-        ${
-          (r.clientName||"C")
-          .charAt(0)
-          .toUpperCase()
-        }
-      </div>
-
-      <div class="grow">
-
-        <strong>
-          ${escapeHtml(r.service)}
-        </strong>
-
-        <div class="small muted">
-          ${escapeHtml(r.area)}
-        </div>
-
-      </div>
-
-      <span class="status">
-        ${r.status}
-      </span>
-
-    </div>
-
-    <div style="margin-top:14px">
-
-      <div class="row">
-
-        <div class="grow">
-
-          <div class="small muted">
-            ${escapeHtml(r.date)}
-            ·
-            ${escapeHtml(r.time)}
-          </div>
-
-        </div>
-
-        <div class="offer">
-          ${
-            r.amount
-            ?
-            "P"+escapeHtml(r.amount)
-            :
-            "Negotiable"
-          }
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  `;
-
-}
-
-function openRequest(id){
-
-  state.selected=
-    state.requests.find(
-      r=>String(r.id)===String(id)
-    );
-
-  if(!state.selected){
-
-    state.selected={
-      id:id,
-      service:"Demo request",
-      clientName:"Demo Client",
-      date:"Today",
-      time:"15:00",
-      area:"Gaborone CBD",
-      amount:"250",
-      details:"Demo request",
-      interested:[]
-    };
-
-  }
-
-  state.screen="request";
-
-  render();
-
-}
-
-function requestDetailScreen(){
-
-  const r=state.selected;
-
-  if(!r){
-
-    return `
-      <div class="card">
-        Request not found.
-      </div>
-    `;
-
-  }
-
-  const client=
-    state.user.role==="client";
-
-  const already=
-    (r.interested||[])
-      .includes(state.user.id);
-
-  return `
-
-  <div class="card">
-
-    <button
-      class="back"
-      onclick="go('requests')"
-    >
-      ← Back
-    </button>
-
-    <h2>
-      ${escapeHtml(r.service)}
-    </h2>
-
-    <div class="row">
-
-      <div class="avatar">
-        ${
-          (r.clientName||"C")
-          .charAt(0)
-          .toUpperCase()
-        }
-      </div>
-
-      <div>
-
-        <strong>
-          ${escapeHtml(r.clientName||"Client")}
-        </strong>
-
-        <div class="small muted">
-          Client
-        </div>
-
-      </div>
-
-    </div>
-
-    <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
-
-    <p>
-      <strong>Date:</strong>
-      ${escapeHtml(r.date)}
-    </p>
-
-    <p>
-      <strong>Time:</strong>
-      ${escapeHtml(r.time)}
-    </p>
-
-    <p>
-      <strong>Area:</strong>
-      ${escapeHtml(r.area)}
-    </p>
-
-    <p>
-      <strong>Proposed amount:</strong>
-      ${
-        r.amount
-        ?
-        "P"+escapeHtml(r.amount)
-        :
-        "Negotiable"
-      }
-    </p>
-
-    <p>
-      <strong>Details:</strong><br>
-      <span class="muted">
-        ${escapeHtml(r.details||"No additional details.")}
-      </span>
-    </p>
-
-    ${
-      client
-      ?
-      `
-      <div class="card" style="background:#f9fafb">
-
-        <strong>
-          Interested providers
-        </strong>
-
-        <p class="small muted">
-          Providers who show interest will appear here.
-        </p>
-
-        <div class="small">
-          ${
-            (r.interested||[]).length
-            ?
-            r.interested.length+
-            " provider(s) interested"
-            :
-            "No providers yet."
-          }
-        </div>
-
-      </div>
-      `
-      :
-      `
-      <button
-        class="action"
-        onclick="showInterest()"
-        ${already?"disabled":""}
-      >
-        ${
-          already
-          ?
-          "Interest sent"
-          :
-          "I'm interested"
-        }
-      </button>
-      `
-    }
-
-  </div>
-
-  <div class="card">
-
-    <strong>
-      Safety
-    </strong>
-
-    <p class="small muted">
-      Keep communication lawful and respectful.
-      Meet in an appropriate public place where
-      possible. Exact live location sharing should
-      only happen during an active session with
-      consent.
-    </p>
-
-  </div>
-
-  `;
-
-}
-
-function showInterest(){
-
-  const r=state.selected;
-
-  if(!r){
-    return;
-  }
-
-  if(!r.interested){
-    r.interested=[];
-  }
-
-  if(!r.interested.includes(state.user.id)){
-
-    r.interested.push(state.user.id);
-
-  }
-
-  save();
-
-  toast("Interest sent to client");
-
-  render();
-
-}
-
-function mapScreen(){
-
-  return `
-
-  <div class="card">
-
-    <div class="row">
-
-      <div class="grow">
-
-        <h2 style="margin:0">
-          Live location
-        </h2>
-
-        <div class="small muted">
-          Consent-based session sharing
-        </div>
-
-      </div>
-
-      <span class="status">
-        PRIVATE
-      </span>
-
-    </div>
-
-    <div class="map" style="margin-top:16px">
-
-      <div class="pin client"></div>
-
-      <div class="pin provider"></div>
-
-    </div>
-
-    <div class="legend">
-
-      <span>
-        <i
-          class="dot"
-          style="background:#111827"
-        ></i>
-        Client
-      </span>
-
-      <span>
-        <i
-          class="dot"
-          style="background:#2563eb"
-        ></i>
-        Provider
-      </span>
-
-    </div>
-
-  </div>
-
-  <div class="card">
-
-    <h3 style="margin-top:0">
-      Share my location
-    </h3>
-
-    <p class="small muted">
-      Your browser will ask for permission.
-      Your location is only stored in this
-      session on this device.
-    </p>
-
-    <button
-      class="action"
-      onclick="shareLocation()"
-    >
-      Share my current location
-    </button>
-
-    ${
-      state.location
-      ?
-      `
-      <p class="small" style="margin-top:12px">
-
-        ✓ Location available
-
-        <br>
-
-        Latitude:
-        ${state.location.lat.toFixed(5)}
-
-        <br>
-
-        Longitude:
-        ${state.location.lng.toFixed(5)}
-
-      </p>
-      `
-      :
-      ""
-    }
-
-  </div>
-
-  `;
-
-}
-
-function shareLocation(){
-
-  if(!navigator.geolocation){
-
-    toast(
-      "Location is not supported on this device."
-    );
-
-    return;
-
-  }
-
-  navigator.geolocation.getCurrentPosition(
-
-    position=>{
-
-      state.location={
-        lat:position.coords.latitude,
-        lng:position.coords.longitude,
-        timestamp:Date.now()
-      };
-
-      toast("Location available for this session");
-
-      render();
-
-    },
-
-    error=>{
-
-      toast(
-        "Location permission was not granted."
-      );
-
-    },
-
-    {
-      enableHighAccuracy:true,
-      timeout:10000,
-      maximumAge:0
-    }
-
+  if(S.auth==='signup')
+   Object.assign(body,{
+    name:$('name').value,
+    role:S.role
+   });
+
+  let d=await api(
+   '/auth/'+(S.auth==='login'?'login':'register'),
+   {
+    method:'POST',
+    body:JSON.stringify(body)
+   }
   );
 
+  localStorage.cb_token=d.token;
+  S.user=d.user;
+  render()
+ }catch(e){
+  toast(e.message)
+ }
 }
 
-function profileScreen(){
+function home(){
+ if(S.user.role==='client')
+ return `
+ <div class="hero">
+  <span class="pill">PERSONAL ASSISTANCE</span>
+  <h1>
+   Find the right person.<br>
+   <span class="gold">Choose with confidence.</span>
+  </h1>
+  <p class="muted">
+   Post what you need, review interested providers and connect privately after acceptance.
+  </p>
+ </div>
 
-  const u=state.user;
+ <div class="card">
+  <h3>Start a request</h3>
 
-  return `
+  <label>Choose duration</label>
+  <div class="choice">
+   <button class="${S.assistance==='SHORT TIME'?'active':''}"
+    onclick="S.assistance='SHORT TIME';render()">SHORT TIME</button>
 
-  <div class="card">
+   <button class="${S.assistance==='SLEEP OVER'?'active':''}"
+    onclick="S.assistance='SLEEP OVER';render()">SLEEP OVER</button>
+  </div>
 
-    <div class="row">
+  <label>Choose movement</label>
+  <div class="choice">
+   <button class="${S.transport==='PICK & DROP'?'active':''}"
+    onclick="S.transport='PICK & DROP';render()">PICK & DROP</button>
 
-      <div class="avatar">
+   <button class="${S.transport==='DRIVE THROUGH'?'active':''}"
+    onclick="S.transport='DRIVE THROUGH';render()">DRIVE THROUGH</button>
+  </div>
 
-        ${
-          (u.name||"U")
-          .charAt(0)
-          .toUpperCase()
-        }
+  <label>Area / meeting point</label>
+  <input id="area" placeholder="e.g. CBD, Gaborone">
 
-      </div>
+  <label>Proposed amount (optional)</label>
+  <input id="amount" type="number" placeholder="P">
 
-      <div>
+  <label>Details</label>
+  <textarea id="details" placeholder="Describe the assistance you need"></textarea>  <br>
+  <button class="btn" onclick="createReq()">POST REQUEST</button>
+ </div>`;return `
 
-        <h2 style="margin:0">
-          ${escapeHtml(u.name)}
-        </h2>
+ <div class="hero">
+  <span class="pill">PROVIDER</span>
+  <h1>
+   Be visible.<br>
+   <span class="gold">Choose your requests.</span>
+  </h1>
+  <p class="muted">
+   Complete your profile with age and up to 3 photos, then show interest in suitable requests.
+  </p>
+ </div> <div class="card">
+  <h3>Open requests</h3>
+  <div id="providerList">Loading…</div>
+ </div>`
+}async function createReq(){
+try{
+let d=await api('/requests',{
+method:'POST',
+body:JSON.stringify({
+assistance_type:S.assistance,
+transport_type:S.transport,
+area:$('area').value,
+amount:$('amount').value,
+details:$('details').value
+})
+});
 
-        <div class="small muted">
-          ${
-            u.role==="client"
-            ?
-            "Client"
-            :
-            "Provider"
-          }
-        </div>
+toast('Request posted');
+go('requests')
+}catch(e){
+toast(e.message)
+}
+}
 
-      </div>
+async function requests(){
+let d=await api('/requests');
+S.requests=d.requests;
 
+return `
+
+ <div class="card">
+  <h2>${S.user.role==='client'?'Your requests':'Available requests'}</h2>${S.requests.length?
+S.requests.map(r=>`
+<div class="card">
+<span class="pill">${r.assistance_type}</span>
+<span class="pill">${r.transport_type}</span>
+
+ <h3>${r.area}</h3>
+
+ <p class="muted">
+  ${r.details||'No extra details'}
+ </p>
+
+ <p>
+  ${r.amount?'P'+r.amount:'Amount to discuss'}
+ </p>
+
+ ${S.user.role==='provider'?
+  `<button class="btn" onclick="interest(${r.id})">
+   I'M INTERESTED
+  </button>`
+  :
+  `<button class="btn secondary" onclick="providers(${r.id})">
+   VIEW INTERESTED PROVIDERS
+  </button>`
+ }
+</div>
+
+`).join('')
+:
+'<div class="muted">No requests yet.</div>'
+}
+
+ </div>`
+}async function interest(id){
+try{
+await api('/requests/'+id+'/interests',{
+method:'POST'
+});
+toast('Interest sent')
+}catch(e){
+toast(e.message)
+}
+}
+
+async function providers(id){
+try{
+let d=await api('/requests/'+id+'/providers');
+S.selected=id;
+go('providers');
+S.providers=d.providers;
+render()
+}catch(e){
+toast(e.message)
+}
+}
+
+function providerScreen(){
+return `
+
+ <div class="card">
+  <button class="btn secondary" onclick="go('requests')">← Back</button>  <h2>Interested providers</h2>${(S.providers||[]).map(p=>`
+
+   <div class="card"><div class="row">
+ ${p.photos?.[0]?
+  `<img class="profilepic" src="${p.photos[0]}">`
+  :
+  '<div class="profilepic" style="display:grid;place-items:center">●</div>'
+ }
+
+ <div class="grow">
+  <h3>${p.name}</h3>
+  <div class="muted">${p.age||'Age not added'}</div>
+ </div>
+</div>
+
+${p.photos?.length?
+ `<div class="photos">
+  ${p.photos.map(x=>`<img src="${x}">`).join('')}
+ </div>`
+ :''
+}
+
+<br>
+
+<button class="btn"
+ onclick="accept(${S.selected},${p.id})">
+ ACCEPT PROVIDER
+</button>
+
+   </div>
+  `).join('')||'<p class="muted">No providers yet.</p>'}
+ </div>`
+}async function accept(r,p){
+try{
+await api('/requests/'+r+'/accept',{
+method:'POST',
+body:JSON.stringify({
+provider_id:p
+})
+});
+
+toast('Accepted — private chat is now open');
+go('chats')
+}catch(e){
+toast(e.message)
+}
+}
+
+async function chats(){
+let d=await api('/chats');
+S.chats=d.chats;
+
+return `
+
+ <div class="card">
+  <h2>Private messages</h2>${S.chats.length?
+S.chats.map(c=>`
+<div class="card">
+<h3>
+${S.user.id===c.client_id?c.provider_name:c.client_name}
+</h3>
+
+ <p class="muted">
+  ${c.assistance_type} · ${c.transport_type}
+ </p>
+
+ <button class="btn"
+  onclick="openChat(${c.request_id})">
+  OPEN CHAT
+ </button>
+</div>
+
+`).join('')
+:
+'<p class="muted">Chats appear here after a client accepts a provider.</p>'
+}
+
+ </div>`
+}async function openChat(id){
+let d=await api('/chats/'+id+'/messages');
+S.selected=id;
+S.messages=d.messages;
+S.screen='chat';
+render()
+}
+
+async function sendMsg(){
+try{
+await api('/chats/'+S.selected+'/messages',{
+method:'POST',
+body:JSON.stringify({
+body:$('msg').value
+})
+});
+
+openChat(S.selected)
+}catch(e){
+toast(e.message)
+}
+}
+
+function chat(){
+return `
+
+ <div class="card">  <button class="btn secondary" onclick="go('chats')">
+   ← Back
+  </button>  <h2>Private chat</h2>${(S.messages||[]).map(m=>`
+
+   <div class="msg ${m.sender_id===S.user.id?'mine':''}">
+    ${m.body}
+    <div class="muted" style="font-size:10px">
+     ${new Date(m.created_at).toLocaleString()}
     </div>
+   </div>
+  `).join('')}<label>Message</label>
+<input id="msg" placeholder="Type privately…">
 
-  </div>
+  <br><button class="btn" onclick="sendMsg()">SEND</button>
 
-  <div class="card">
+ </div>`
+}function profile(){
+let u=S.user;
 
-    <p>
-      <strong>Phone</strong>
-      <br>
-      <span class="muted">
-        ${escapeHtml(u.phone)}
-      </span>
-    </p>
+return `
 
-    <p>
-      <strong>Account type</strong>
-      <br>
-      <span class="muted">
-        ${
-          u.role==="client"
-          ?
-          "Client"
-          :
-          "Provider"
-        }
-      </span>
-    </p>
+ <div class="card">
+  <h2>My profile</h2>  <div class="row">
+   <div class="profilepic" style="display:grid;place-items:center">
+    ${u.name?.[0]||'C'}
+   </div>   <div>
+    <h3>${u.name}</h3>
+    <div class="muted">${u.phone}</div>
+   </div>
+  </div><label>Age</label>
+<input id="age" type="number"
+value="${u.age||''}"
+placeholder="18+">
 
-  </div>
+  <br>  <button class="btn" onclick="saveAge()">
+   SAVE PROFILE
+  </button>${u.role==='provider'?
+`
 
-  <div class="card">
+   <div class="card">
+    <h3>Profile photos</h3><p class="muted">
+ Upload up to 3 JPG, PNG or WEBP photos.
+</p>
 
-    <h3 style="margin-top:0">
-      Safety & privacy
-    </h3>
+<input id="photos"
+ type="file"
+ accept="image/jpeg,image/png,image/webp"
+ multiple>
 
-    <p class="small muted">
-      Do not publish your exact home address or
-      private location. Only share live location
-      with another user when you have chosen to
-      meet and the session is active.
-    </p>
+<br><br>
 
-  </div>
+<button class="btn" onclick="uploadPhotos()">
+ UPLOAD PHOTOS
+</button>
 
-  <button
-    class="action secondary"
-    onclick="logout()"
-  >
-    Log out
-  </button>
-
-  `;
-
+${u.photos?.length?
+ `
+ <div class="photos" style="margin-top:12px">
+  ${u.photos.map(x=>`<img src="${x}">`).join('')}
+ </div>
+ `
+ :''
 }
 
-function logout(){
+   </div>
+   `
+   :''
+  }  <br><button class="btn secondary"
+onclick="localStorage.removeItem('cb_token');location.reload()">
+LOG OUT
+</button>
 
-  localStorage.removeItem("cb_token");
+ </div>`
+}async function saveAge(){
+try{
+S.user=(await api('/profile',{
+method:'PUT',
+body:JSON.stringify({
+age:Number($('age').value)
+})
+})).user;
 
-  state.user=null;
-  state.screen="auth";
-
-  toast("Logged out");
-
-  render();
-
+toast('Profile saved')
+}catch(e){
+toast(e.message)
+}
 }
 
-function escapeHtml(value){
+async function uploadPhotos(){
+try{
+let f=$('photos').files;
 
-  return String(value??"")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+if(f.length<1||f.length>3)
+return toast('Choose 1 to 3 photos');
 
+let fd=new FormData();
+
+[...f].forEach(x=>fd.append('photos',x));
+
+let r=await fetch(A+'/profile/photos',{
+method:'POST',
+headers:{
+Authorization:'Bearer '+localStorage.cb_token
+},
+body:fd
+});
+
+let d=await r.json();
+
+if(!r.ok)throw Error(d.error);
+
+S.user=d.user;
+
+toast('Photos uploaded');
+render()
+}catch(e){
+toast(e.message)
+}
+}
+
+function map(){
+setTimeout(()=>{
+if(S.map)return;
+
+S.map=L.map('map').setView(
+[-24.6282,25.9231],
+13
+);
+
+L.tileLayer(
+'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+{
+attribution:'© OpenStreetMap'
+}
+).addTo(S.map);
+
+navigator.geolocation?.getCurrentPosition(
+p=>{
+let a=[
+p.coords.latitude,
+p.coords.longitude
+];
+
+S.map.setView(a,15);
+
+L.marker(a)
+ .addTo(S.map)
+ .bindPopup(
+  'Your location — visible only on your device until you choose to share it.'
+ )
+ .openPopup()
+
+}
+)
+},50);
+
+return `
+
+ <div class="card">
+  <h2>Live location</h2>  <p class="muted">
+   Real GPS map. Location sharing is consent-based and should only be shared with the person you accepted.
+  </p>  <div id="map" class="map"></div>
+ </div>`
+}async function render(){
+if(!S.user){
+$('app').innerHTML=auth();
+return
+}
+
+S.map=null;
+
+let body=
+S.screen==='home'?home():
+S.screen==='requests'?await requests():
+S.screen==='providers'?providerScreen():
+S.screen==='chats'?await chats():
+S.screen==='chat'?chat():
+S.screen==='profile'?profile():
+S.screen==='map'?map():
+home();
+
+$('app').innerHTML=
+head()+
+'<main>'+body+'</main>'+
+nav();
+
+if(
+S.user.role==='provider'&&
+S.screen==='home'
+){
+try{
+let d=await api('/requests');
+
+$('providerList').innerHTML=
+d.requests.length?
+d.requests.slice(0,5).map(r=>`
+<div class="card">
+<span class="pill">${r.assistance_type}</span>
+<span class="pill">${r.transport_type}</span>
+
+   <h3>${r.area}</h3>
+
+   <p class="muted">
+    ${r.details||''}
+   </p>
+
+   <button class="btn"
+    onclick="interest(${r.id})">
+    I'M INTERESTED
+   </button>
+  </div>
+ `).join('')
+ :
+ 'No open requests.';
+
+}catch(e){}
+}
 }
 
 boot();
-
-boot();
-
-/*
-  COME BY FRONTEND
-  Authentication:
-    POST /api/auth/register
-    POST /api/auth/login
-    GET  /api/auth/me
-
-  Current version:
-    - Client / Provider accounts
-    - Login / Sign up
-    - Persistent sessions
-    - Requests
-    - Provider interest
-    - Profile
-    - Location permission
-    - Mobile navigation
-
-  No in-app payments.
-  No connection fee.
-  Location sharing is consent-based.
-*/
-
 </script>
+
 </body>
-</html>
+  </html>
