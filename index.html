@@ -1,33 +1,1914 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#111827"/><meta name="description" content="COME BY — request companionship or assistance, compare interested providers and connect directly."/>
-<link rel="manifest" href="manifest.webmanifest"/><link rel="icon" href="icon.svg"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="description" content="COME BY — connect clients with providers for lawful, non-sexual companionship and assistance.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
 <title>COME BY</title>
+
 <style>
-:root{--bg:#f6f7fb;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#111827;--soft:#eef2ff;--good:#15803d;--danger:#b91c1c}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:520px;margin:auto;min-height:100vh;background:var(--bg)}header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}.brand{font-weight:900;letter-spacing:-.04em;font-size:25px}.tag{font-size:11px;color:var(--muted)}main{padding:18px 16px 92px}.hero{background:#111827;color:#fff;border-radius:24px;padding:24px;margin-bottom:16px}.hero h1{font-size:31px;line-height:1;margin:0 0 10px}.hero p{color:#d1d5db;margin:0;line-height:1.45}.pill{display:inline-flex;padding:7px 10px;border-radius:99px;background:#fff;color:#111827;font-size:12px;font-weight:800;margin-bottom:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}.action{border:0;background:#111827;color:#fff;border-radius:14px;padding:13px 16px;font-weight:800;width:100%}.secondary{background:#fff;color:#111827;border:1px solid var(--line)}.field{margin-bottom:13px}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;outline:none}.field textarea{min-height:90px;resize:vertical}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:520px;width:100%;display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:8}.nav button{background:none;border:0;color:var(--muted);font-size:11px;font-weight:700;padding:7px}.nav button.active{color:#111827}.row{display:flex;gap:10px;align-items:center}.avatar{width:46px;height:46px;border-radius:50%;background:#e5e7eb;display:grid;place-items:center;font-weight:900}.grow{flex:1}.muted{color:var(--muted)}.small{font-size:12px}.offer{font-weight:900;font-size:18px}.status{font-size:11px;font-weight:800;padding:5px 8px;border-radius:99px;background:#ecfdf5;color:var(--good)}.map{height:250px;border-radius:18px;background:radial-gradient(circle at 30% 35%,#dbeafe 0 2px,transparent 3px),radial-gradient(circle at 65% 60%,#c7d2fe 0 2px,transparent 3px),linear-gradient(135deg,#eef2f7,#dfe5ec);position:relative;overflow:hidden}.map:before,.map:after{content:"";position:absolute;background:#fff8;width:140%;height:16px;top:42%;left:-15%;transform:rotate(-19deg);box-shadow:0 38px 0 #ffffffaa}.map:after{top:65%;transform:rotate(27deg)}.pin{position:absolute;width:16px;height:16px;border:4px solid #fff;border-radius:50%;background:#111827;box-shadow:0 3px 12px #0005;z-index:2}.pin.client{left:47%;top:42%}.pin.escort{left:68%;top:60%;background:#2563eb}.legend{display:flex;gap:14px;margin-top:8px;font-size:11px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}.empty{text-align:center;padding:28px 10px;color:var(--muted)}.back{border:0;background:none;font-weight:800;padding:0}.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 16px;border-radius:12px;font-size:13px;z-index:20;display:none}.toast.show{display:block}.danger{color:var(--danger)}
-</style></head>
-<body><div class="app" id="app"></div><div id="toast" class="toast"></div>
+:root{
+  --bg:#f6f7fb;
+  --card:#fff;
+  --ink:#111827;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --good:#15803d;
+  --danger:#b91c1c;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  background:var(--bg);
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:#ffffffef;
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.brand{
+  font-weight:900;
+  letter-spacing:-.04em;
+  font-size:25px;
+}
+
+.tag{
+  font-size:11px;
+  color:var(--muted);
+}
+
+main{
+  padding:18px 16px 92px;
+}
+
+.hero{
+  background:#111827;
+  color:#fff;
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:16px;
+}
+
+.hero h1{
+  font-size:31px;
+  line-height:1;
+  margin:0 0 10px;
+}
+
+.hero p{
+  color:#d1d5db;
+  margin:0;
+  line-height:1.45;
+}
+
+.pill{
+  display:inline-flex;
+  padding:7px 10px;
+  border-radius:99px;
+  background:#fff;
+  color:#111827;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:14px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.action{
+  border:0;
+  background:#111827;
+  color:#fff;
+  border-radius:14px;
+  padding:13px 16px;
+  font-weight:800;
+  width:100%;
+}
+
+.secondary{
+  background:#fff;
+  color:#111827;
+  border:1px solid var(--line);
+}
+
+.field{
+  margin-bottom:13px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  background:#fff;
+  outline:none;
+}
+
+.field textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  max-width:520px;
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#fff;
+  border-top:1px solid var(--line);
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  z-index:8;
+}
+
+.nav button{
+  background:none;
+  border:0;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  padding:7px;
+}
+
+.nav button.active{
+  color:#111827;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.avatar{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  background:#e5e7eb;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+
+.grow{flex:1}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+
+.offer{
+  font-weight:900;
+  font-size:18px;
+}
+
+.status{
+  font-size:11px;
+  font-weight:800;
+  padding:5px 8px;
+  border-radius:99px;
+  background:#ecfdf5;
+  color:var(--good);
+}
+
+.empty{
+  text-align:center;
+  padding:28px 10px;
+  color:var(--muted);
+}
+
+.back{
+  border:0;
+  background:none;
+  font-weight:800;
+  padding:0;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:80px;
+  transform:translateX(-50%);
+  background:#111827;
+  color:#fff;
+  padding:12px 16px;
+  border-radius:12px;
+  font-size:13px;
+  z-index:20;
+  display:none;
+}
+
+.toast.show{
+  display:block;
+}
+
+/* AUTH */
+
+.auth{
+  min-height:100vh;
+  padding:28px 18px;
+  display:flex;
+  align-items:center;
+}
+
+.authbox{
+  width:100%;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:0 12px 40px #11182712;
+}
+
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  background:#f3f4f6;
+  border-radius:12px;
+  padding:4px;
+  margin:18px 0;
+}
+
+.tabs button{
+  border:0;
+  background:none;
+  border-radius:9px;
+  padding:10px;
+  font-weight:800;
+  color:var(--muted);
+}
+
+.tabs button.active{
+  background:#fff;
+  color:#111827;
+  box-shadow:0 1px 4px #0001;
+}
+
+.role{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:10px 0 15px;
+}
+
+.role button{
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+  font-weight:800;
+}
+
+.role button.active{
+  background:#111827;
+  color:#fff;
+}
+
+.error{
+  background:#fef2f2;
+  color:var(--danger);
+  border-radius:10px;
+  padding:10px;
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+.map{
+  height:250px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#eef2f7,#dfe5ec);
+  position:relative;
+  overflow:hidden;
+}
+
+.map:before,
+.map:after{
+  content:"";
+  position:absolute;
+  background:#fff8;
+  width:140%;
+  height:16px;
+  top:42%;
+  left:-15%;
+  transform:rotate(-19deg);
+  box-shadow:0 38px 0 #ffffffaa;
+}
+
+.map:after{
+  top:65%;
+  transform:rotate(27deg);
+}
+
+.pin{
+  position:absolute;
+  width:16px;
+  height:16px;
+  border:4px solid #fff;
+  border-radius:50%;
+  background:#111827;
+  box-shadow:0 3px 12px #0005;
+  z-index:2;
+}
+
+.pin.client{
+  left:47%;
+  top:42%;
+}
+
+.pin.provider{
+  left:68%;
+  top:60%;
+  background:#2563eb;
+}
+
+.legend{
+  display:flex;
+  gap:14px;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:4px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app" id="app"></div>
+<div id="toast" class="toast"></div>
+
 <script>
-const state={screen:'home',role:localStorage.getItem('cb_role')||null,requests:JSON.parse(localStorage.getItem('cb_requests')||'[]'),location:null,selected:null};
-const demo=[{id:1,name:'Thabo',initial:'T',rating:4.9,distance:'1.8 km',offer:350,verified:true,available:true,services:'Event / social companion'},{id:2,name:'Kago',initial:'K',rating:4.8,distance:'3.2 km',offer:400,verified:true,available:true,services:'Tour / city companion'},{id:3,name:'Neo',initial:'N',rating:4.7,distance:'4.6 km',offer:300,verified:true,available:true,services:'Errands / personal assistance'}];
-function save(){localStorage.setItem('cb_requests',JSON.stringify(state.requests));if(state.role)localStorage.setItem('cb_role',state.role)}
-function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
-function nav(){return `<div class="nav">${[['home','⌂','Home'],['requests','◉','Requests'],['map','⌖','Map'],['profile','●','Profile']].map(x=>`<button class="${state.screen===x[0]?'active':''}" onclick="go('${x[0]}')"><div style="font-size:19px">${x[1]}</div>${x[2]}</button>`).join('')}</div>`}
-function header(){return `<header><div><div class="brand">COME BY</div><div class="tag">Connect. Choose. Meet.</div></div><div class="small muted">${state.role?state.role==='client'?'CLIENT':'ESCORT':''}</div></header>`}
-function go(s){state.screen=s;render()}
-function chooseRole(r){state.role=r;save();state.screen=r==='client'?'create':'requests';render()}
-function home(){return `<main><section class="hero"><span class="pill">FREE TO CONNECT</span><h1>COME BY</h1><p>Request a companion or service, see who is interested, compare offers and choose who you want to meet.</p></section>${!state.role?`<div class="card"><h3>How do you want to use COME BY?</h3><div class="grid"><button class="action" onclick="chooseRole('client')">I need someone</button><button class="action secondary" onclick="chooseRole('escort')">I want to provide</button></div></div>`:`<div class="card"><h3>${state.role==='client'?'Need someone?':'Ready to take requests?'}</h3><p class="muted">${state.role==='client'?'Post a request and let available providers show interest.':'Turn on availability and respond to nearby client requests.'}</p><button class="action" onclick="go('${state.role==='client'?'create':'requests'}')">${state.role==='client'?'Create a request':'View requests'}</button></div>`}<div class="card"><b>Safety first</b><p class="muted small">Meet in a safe public place when possible. Share your live location only when you choose. Use report/block if something feels wrong.</p></div></main>`}
-function create(){return `<main><button class="back" onclick="go('home')">← Back</button><h2>Create a request</h2><div class="card"><div class="field"><label>What do you need?</label><select id="service"><option>Social / event companion</option><option>Tour / city companion</option><option>Errands / personal assistance</option><option>Other lawful companionship</option></select></div><div class="field"><label>Date & time</label><input id="when" type="datetime-local"></div><div class="field"><label>Meeting area</label><input id="area" placeholder="e.g. Gaborone CBD"></div><div class="field"><label>Proposed amount (P)</label><input id="amount" type="number" min="0" placeholder="e.g. 350"></div><div class="field"><label>Details</label><textarea id="details" placeholder="Tell providers what you need..."></textarea></div><button class="action" onclick="postRequest()">Post request</button></div></main>`}
-function postRequest(){const r={id:Date.now(),service:document.getElementById('service').value,when:document.getElementById('when').value,area:document.getElementById('area').value,amount:document.getElementById('amount').value||0,details:document.getElementById('details').value,status:'Open',interests:[]};state.requests.unshift(r);save();toast('Request posted');state.screen='requests';render()}
-function requests(){if(state.role==='client')return `<main><div class="row"><div class="grow"><h2>Your requests</h2><div class="muted small">Manage requests and interested providers.</div></div><button class="action" style="width:auto" onclick="go('create')">+ New</button></div>${state.requests.length?state.requests.map(requestCard).join(''):`<div class="card empty">No requests yet.<br><br><button class="action" onclick="go('create')">Create your first request</button></div>`}</main>`;return `<main><h2>Nearby requests</h2><div class="card"><div class="row"><span class="status">AVAILABLE</span><div class="grow small">You can turn this off in Profile.</div></div></div>${(state.requests.length?state.requests:[{id:99,service:'Social / event companion',when:'Today, 19:00',area:'Gaborone CBD',amount:450,details:'Looking for a reliable companion for an event.',status:'Open',interests:[]}]).map(r=>`<div class="card"><div class="row"><div class="grow"><b>${r.service}</b><div class="muted small">${r.area||'Location not specified'} · ${r.when||'Flexible'}</div></div><span class="offer">P${r.amount}</span></div><p class="small">${r.details||''}</p><button class="action" onclick="interest(${r.id})">I'm interested</button></div>`).join('')}</main>`}
-function requestCard(r){return `<div class="card"><div class="row"><div class="grow"><b>${r.service}</b><div class="muted small">${r.area||'—'} · ${r.when||'Flexible'}</div></div><span class="status">${r.status}</span></div><p class="small">Proposed: <b>P${r.amount}</b></p>${r.interests?.length?`<hr style="border:0;border-top:1px solid var(--line)"><b>Interested</b>${r.interests.map(i=>`<div class="row" style="margin-top:10px"><div class="avatar">${i.initial}</div><div class="grow"><b>${i.name}</b><div class="muted small">⭐ ${i.rating} · ${i.distance}</div></div><span class="offer">P${i.offer}</span><button class="action" style="width:auto;padding:9px 12px" onclick="selectEscort('${i.name}')">Choose</button></div>`).join('')}`:'<div class="muted small">No one has shown interest yet.</div>'}</div>`}
-function interest(id){const r=state.requests.find(x=>x.id===id);if(r){r.interests=r.interests||[];if(!r.interests.find(x=>x.name==='You'))r.interests.push({...demo[0],name:'You',initial:'Y',offer:r.amount});save();toast('Interest sent to client');render()}}
-function selectEscort(n){state.selected=n;toast(n+' selected. Start a conversation before meeting.');go('map')}
-function map(){return `<main><h2>Live location</h2><div class="card"><div class="map"><span class="pin client"></span><span class="pin escort"></span></div><div class="legend"><span><i class="dot" style="background:#111827"></i>Client</span><span><i class="dot" style="background:#2563eb"></i>Interested provider</span></div></div><div class="card"><b>Location sharing</b><p class="muted small">COME BY does not publish your exact location publicly. Share it only for an active connection/meeting.</p><button class="action" onclick="shareLocation()">${state.location?'Location shared':'Share my live location'}</button></div>${state.selected?`<div class="card"><b>Selected: ${state.selected}</b><p class="muted small">Use the map and messaging before you meet. Keep your meeting in a safe location.</p><button class="action secondary" onclick="toast('Chat feature ready for backend integration')">Open chat</button></div>`:''}</main>`}
-function shareLocation(){if(!navigator.geolocation){toast('Location is not supported on this device');return}navigator.geolocation.getCurrentPosition(p=>{state.location={lat:p.coords.latitude,lng:p.coords.longitude};toast('Live location sharing enabled for this session');render()},()=>toast('Please allow location access'))}
-function profile(){return `<main><h2>Profile</h2><div class="card"><div class="row"><div class="avatar">${state.role==='escort'?'E':'C'}</div><div><b>${state.role==='escort'?'Provider profile':'Client profile'}</b><div class="muted small">${state.role?'Active account':'Choose a role'}</div></div></div></div><div class="card"><b>Verification</b><p class="muted small">Identity verification can be added before public launch.</p><button class="action secondary" onclick="toast('Verification workflow coming in the next build')">Verification</button></div><div class="card"><b>Safety</b><p class="small muted">Report, block, emergency contact and meeting check-in should be enabled before launch.</p></div><div class="card"><button class="action secondary" onclick="state.role=null;localStorage.removeItem('cb_role');state.screen='home';render()">Switch / sign out</button></div></main>`}
-function render(){let body=state.screen==='home'?home():state.screen==='create'?create():state.screen==='requests'?requests():state.screen==='map'?map():profile();document.getElementById('app').innerHTML=header()+body+nav()}
-render();
-</script></body></html>
+
+const API="/api";
+
+const state={
+  screen:"home",
+  user:null,
+  requests:JSON.parse(localStorage.getItem("cb_requests")||"[]"),
+  location:null,
+  selected:null,
+  authMode:"login",
+  authRole:"client",
+  authBusy:false
+};
+
+const demo=[
+  {name:"Thabo",initial:"T",rating:4.9,distance:"1.8 km"},
+  {name:"Kago",initial:"K",rating:4.8,distance:"3.2 km"},
+  {name:"Neo",initial:"N",rating:4.7,distance:"4.6 km"}
+];
+
+function save(){
+  localStorage.setItem(
+    "cb_requests",
+    JSON.stringify(state.requests)
+  );
+}
+
+function toast(message){
+  const e=document.getElementById("toast");
+  e.textContent=message;
+  e.classList.add("show");
+
+  setTimeout(()=>{
+    e.classList.remove("show");
+  },2200);
+}
+
+async function api(path,options={}){
+  const token=localStorage.getItem("cb_token");
+
+  options.headers={
+    ...(options.headers||{}),
+    "Content-Type":"application/json",
+    ...(token ? {Authorization:"Bearer "+token} : {})
+  };
+
+  const response=await fetch(API+path,options);
+
+  const data=await response.json().catch(()=>({}));
+
+  if(!response.ok){
+    throw new Error(
+      data.error || "Something went wrong."
+    );
+  }
+
+  return data;
+}
+
+async function boot(){
+
+  const token=localStorage.getItem("cb_token");
+
+  if(token){
+
+    try{
+
+      const data=await api("/auth/me");
+
+      state.user=data.user;
+
+    }catch(error){
+
+      localStorage.removeItem("cb_token");
+
+    }
+
+  }
+
+  render();
+}
+
+function nav(){
+
+  if(!state.user){
+    return "";
+  }
+
+  const items=[
+    ["home","⌂","Home"],
+    ["requests","◉","Requests"],
+    ["map","⌖","Map"],
+    ["profile","●","Profile"]
+  ];
+
+  return `
+  <div class="nav">
+
+    ${items.map(item=>`
+
+      <button
+        class="${state.screen===item[0]?"active":""}"
+        onclick="go('${item[0]}')"
+      >
+
+        <div style="font-size:19px">
+          ${item[1]}
+        </div>
+
+        ${item[2]}
+
+      </button>
+
+    `).join("")}
+
+  </div>
+  `;
+}
+
+function header(){
+
+  return `
+  <header>
+
+    <div>
+
+      <div class="brand">
+        COME BY
+      </div>
+
+      <div class="tag">
+        Connect. Choose. Meet.
+      </div>
+
+    </div>
+
+    ${
+      state.user
+      ?
+      `<div class="small muted">
+        ${state.user.role==="client"?"CLIENT":"PROVIDER"}
+      </div>`
+      :
+      ""
+    }
+
+  </header>
+  `;
+}
+
+function go(screen){
+
+  if(!state.user){
+    auth();
+    return;
+  }
+
+  state.screen=screen;
+  render();
+}
+
+function auth(){
+
+  state.screen="auth";
+  render();
+
+}
+
+function setAuthMode(mode){
+
+  state.authMode=mode;
+  render();
+
+}
+
+function setAuthRole(role){
+
+  state.authRole=role;
+  render();
+
+}
+
+function authScreen(){
+
+  return `
+
+  <div class="auth">
+
+    <div class="authbox">
+
+      <div class="brand">
+        COME BY
+      </div>
+
+      <p class="muted">
+        Connect. Choose. Meet.
+      </p>
+
+      <div class="tabs">
+
+        <button
+          class="${state.authMode==="login"?"active":""}"
+          onclick="setAuthMode('login')"
+        >
+          Log in
+        </button>
+
+        <button
+          class="${state.authMode==="signup"?"active":""}"
+          onclick="setAuthMode('signup')"
+        >
+          Sign up
+        </button>
+
+      </div>
+
+      ${
+        state.authMode==="signup"
+        ?
+        `
+        <div class="field">
+
+          <label>
+            Full name
+          </label>
+
+          <input
+            id="authName"
+            placeholder="Your name"
+          >
+
+        </div>
+        `
+        :
+        ""
+      }
+
+      <div class="field">
+
+        <label>
+          Phone number
+        </label>
+
+        <input
+          id="authPhone"
+          type="tel"
+          placeholder="+267 ..."
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Password
+        </label>
+
+        <input
+          id="authPassword"
+          type="password"
+          placeholder="At least 6 characters"
+        >
+
+      </div>
+
+      ${
+        state.authMode==="signup"
+        ?
+        `
+        <label style="font-size:12px;font-weight:800">
+          I am joining as
+        </label>
+
+        <div class="role">
+
+          <button
+            class="${state.authRole==="client"?"active":""}"
+            onclick="setAuthRole('client')"
+          >
+            Client
+          </button>
+
+          <button
+            class="${state.authRole==="provider"?"active":""}"
+            onclick="setAuthRole('provider')"
+          >
+            Provider
+          </button>
+
+        </div>
+        `
+        :
+        ""
+      }
+
+      <div id="authMsg"></div>
+
+      <button
+        class="action"
+        onclick="submitAuth()"
+      >
+        ${
+          state.authMode==="login"
+          ?
+          "Log in"
+          :
+          "Create account"
+        }
+      </button>
+
+      <p class="small muted" style="margin-top:14px">
+
+        COME BY is for lawful, non-sexual companionship
+        and assistance. Never share your exact location publicly.
+
+      </p>
+
+    </div>
+
+  </div>
+
+  `;
+}
+
+async function submitAuth(){
+
+  if(state.authBusy){
+    return;
+  }
+
+  const msg=document.getElementById("authMsg");
+
+  const phone=
+    document.getElementById("authPhone")?.value.trim();
+
+  const password=
+    document.getElementById("authPassword")?.value;
+
+  if(!phone || !password){
+
+    msg.innerHTML=`
+      <div class="error">
+        Phone number and password are required.
+      </div>
+    `;
+
+    return;
+  }
+
+  try{
+
+    let data;
+
+    if(state.authMode==="signup"){
+
+      const name=
+        document.getElementById("authName")?.value.trim();
+
+      if(!name){
+
+        throw new Error(
+          "Full name is required."
+        );
+
+      }
+
+      data=await api(
+        "/auth/register",
+        {
+          method:"POST",
+          body:JSON.stringify({
+            name:name,
+            phone:phone,
+            password:password,
+            role:state.authRole
+          })
+        }
+      );
+
+    }else{
+
+      data=await api(
+        "/auth/login",
+        {
+          method:"POST",
+          body:JSON.stringify({
+            phone:phone,
+            password:password
+          })
+        }
+      );
+
+    }
+
+    localStorage.setItem(
+      "cb_token",
+      data.token
+    );
+
+    state.user=data.user;
+    state.screen="home";
+
+    toast(
+      state.authMode==="signup"
+      ?
+      "Account created"
+      :
+      "Welcome back"
+    );
+
+    render();
+
+  }catch(error){
+
+    msg.innerHTML=`
+      <div class="error">
+        ${error.message}
+      </div>
+    `;
+
+  }
+
+}
+function render(){
+
+  const app=document.getElementById("app");
+
+  if(!state.user){
+
+    app.innerHTML=authScreen();
+    return;
+
+  }
+
+  let content="";
+
+  if(state.screen==="home"){
+    content=homeScreen();
+  }
+
+  if(state.screen==="requests"){
+    content=requestsScreen();
+  }
+
+  if(state.screen==="map"){
+    content=mapScreen();
+  }
+
+  if(state.screen==="profile"){
+    content=profileScreen();
+  }
+
+  if(state.screen==="create"){
+    content=createRequestScreen();
+  }
+
+  if(state.screen==="request"){
+    content=requestDetailScreen();
+  }
+
+  app.innerHTML=
+    header()+
+    `<main>${content}</main>`+
+    nav();
+
+}
+
+function homeScreen(){
+
+  const client=state.user.role==="client";
+
+  return `
+
+  <div class="hero">
+
+    <span class="pill">
+      FREE TO CONNECT
+    </span>
+
+    <h1>
+      ${
+        client
+        ?
+        "Find the right person."
+        :
+        "Find people who need you."
+      }
+    </h1>
+
+    <p>
+      ${
+        client
+        ?
+        "Post what you need, review interested providers and choose who you want to meet."
+        :
+        "See suitable requests and show interest when you are available."
+      }
+    </p>
+
+  </div>
+
+  ${
+    client
+    ?
+    `
+    <div class="card">
+
+      <h3 style="margin-top:0">
+        Need a provider?
+      </h3>
+
+      <p class="muted small">
+        Create a request with your service,
+        meeting area, date and proposed amount.
+      </p>
+
+      <button
+        class="action"
+        onclick="go('create')"
+      >
+        + Create a request
+      </button>
+
+    </div>
+    `
+    :
+    `
+    <div class="card">
+
+      <h3 style="margin-top:0">
+        Available requests
+      </h3>
+
+      <p class="muted small">
+        Browse requests and express interest.
+      </p>
+
+      <button
+        class="action"
+        onclick="go('requests')"
+      >
+        View requests
+      </button>
+
+    </div>
+    `
+  }
+
+  <div class="grid">
+
+    <div class="card">
+
+      <div style="font-size:25px">
+        📍
+      </div>
+
+      <strong>
+        Location
+      </strong>
+
+      <div class="small muted">
+        Consent-based sharing
+      </div>
+
+    </div>
+
+    <div class="card">
+
+      <div style="font-size:25px">
+        🤝
+      </div>
+
+      <strong>
+        Choose
+      </strong>
+
+      <div class="small muted">
+        You stay in control
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <h3 style="margin-top:0">
+      How COME BY works
+    </h3>
+
+    <p class="small muted">
+      1. Post or browse a request.
+    </p>
+
+    <p class="small muted">
+      2. Providers show interest.
+    </p>
+
+    <p class="small muted">
+      3. Client chooses a provider.
+    </p>
+
+    <p class="small muted">
+      4. Agree on the details and meet.
+    </p>
+
+    <p class="small muted">
+      There is currently no in-app payment or
+      connection fee.
+    </p>
+
+  </div>
+
+  `;
+
+}
+
+function createRequestScreen(){
+
+  return `
+
+  <div class="card">
+
+    <div class="row" style="margin-bottom:18px">
+
+      <button
+        class="back"
+        onclick="go('home')"
+      >
+        ← Back
+      </button>
+
+      <div class="grow">
+        <strong>
+          Create request
+        </strong>
+      </div>
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        Service
+      </label>
+
+      <select id="reqService">
+
+        <option>
+          Social / event companion
+        </option>
+
+        <option>
+          Tour / city companion
+        </option>
+
+        <option>
+          Errands / personal assistance
+        </option>
+
+        <option>
+          General lawful assistance
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        Date
+      </label>
+
+      <input
+        id="reqDate"
+        type="date"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        Time
+      </label>
+
+      <input
+        id="reqTime"
+        type="time"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        Meeting area
+      </label>
+
+      <input
+        id="reqArea"
+        placeholder="Example: Gaborone CBD"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        Proposed amount
+      </label>
+
+      <input
+        id="reqAmount"
+        type="number"
+        min="0"
+        placeholder="P"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        Details
+      </label>
+
+      <textarea
+        id="reqDetails"
+        placeholder="Tell providers what you need..."
+      ></textarea>
+
+    </div>
+
+    <button
+      class="action"
+      onclick="createRequest()"
+    >
+      Post request
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <strong>
+      Location privacy
+    </strong>
+
+    <p class="small muted">
+      Your exact location is not publicly displayed.
+      Only share precise location during an active
+      session when you choose to do so.
+    </p>
+
+  </div>
+
+  `;
+
+}
+
+function createRequest(){
+
+  const service=
+    document.getElementById("reqService").value;
+
+  const date=
+    document.getElementById("reqDate").value;
+
+  const time=
+    document.getElementById("reqTime").value;
+
+  const area=
+    document.getElementById("reqArea").value.trim();
+
+  const amount=
+    document.getElementById("reqAmount").value;
+
+  const details=
+    document.getElementById("reqDetails").value.trim();
+
+  if(!service || !date || !time || !area){
+
+    toast(
+      "Please complete the required fields."
+    );
+
+    return;
+  }
+
+  const request={
+
+    id:Date.now(),
+
+    clientId:state.user.id,
+
+    clientName:state.user.name,
+
+    service:service,
+
+    date:date,
+
+    time:time,
+
+    area:area,
+
+    amount:amount,
+
+    details:details,
+
+    interested:[],
+
+    status:"Open",
+
+    createdAt:new Date().toISOString()
+
+  };
+
+  state.requests.unshift(request);
+
+  save();
+
+  toast("Request posted");
+
+  state.screen="requests";
+
+  render();
+
+}
+
+function requestsScreen(){
+
+  const client=
+    state.user.role==="client";
+
+  let requests=state.requests;
+
+  if(!requests.length){
+
+    requests=[
+      {
+        id:"demo1",
+        clientName:"Demo Client",
+        service:"Tour / city companion",
+        date:"Today",
+        time:"15:00",
+        area:"Gaborone CBD",
+        amount:"P250",
+        details:"Looking for lawful city companionship.",
+        interested:[],
+        status:"Open",
+        demo:true
+      },
+      {
+        id:"demo2",
+        clientName:"Demo Client",
+        service:"Errands / personal assistance",
+        date:"Tomorrow",
+        time:"10:00",
+        area:"Broadhurst",
+        amount:"P180",
+        details:"Assistance with a few local errands.",
+        interested:[],
+        status:"Open",
+        demo:true
+      }
+    ];
+  }
+
+  if(client){
+
+    requests=
+      requests.filter(
+        r=>r.clientId===state.user.id || r.demo
+      );
+
+  }
+
+  return `
+
+  <div class="row" style="margin-bottom:16px">
+
+    <div class="grow">
+
+      <h2 style="margin:0">
+        ${client?"My requests":"Available requests"}
+      </h2>
+
+      <div class="small muted">
+        ${
+          client
+          ?
+          "Requests you have created"
+          :
+          "Requests from clients"
+        }
+      </div>
+
+    </div>
+
+    ${
+      client
+      ?
+      `
+      <button
+        class="action"
+        style="width:auto"
+        onclick="go('create')"
+      >
+        + New
+      </button>
+      `
+      :
+      ""
+    }
+
+  </div>
+
+  ${
+    requests.length
+    ?
+    requests.map(requestCard).join("")
+    :
+    `
+    <div class="card empty">
+      No requests yet.
+    </div>
+    `
+  }
+
+  `;
+
+}
+
+function requestCard(r){
+
+  return `
+
+  <div
+    class="card"
+    onclick="openRequest('${r.id}')"
+    style="cursor:pointer"
+  >
+
+    <div class="row">
+
+      <div class="avatar">
+        ${
+          (r.clientName||"C")
+          .charAt(0)
+          .toUpperCase()
+        }
+      </div>
+
+      <div class="grow">
+
+        <strong>
+          ${escapeHtml(r.service)}
+        </strong>
+
+        <div class="small muted">
+          ${escapeHtml(r.area)}
+        </div>
+
+      </div>
+
+      <span class="status">
+        ${r.status}
+      </span>
+
+    </div>
+
+    <div style="margin-top:14px">
+
+      <div class="row">
+
+        <div class="grow">
+
+          <div class="small muted">
+            ${escapeHtml(r.date)}
+            ·
+            ${escapeHtml(r.time)}
+          </div>
+
+        </div>
+
+        <div class="offer">
+          ${
+            r.amount
+            ?
+            "P"+escapeHtml(r.amount)
+            :
+            "Negotiable"
+          }
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+function openRequest(id){
+
+  state.selected=
+    state.requests.find(
+      r=>String(r.id)===String(id)
+    );
+
+  if(!state.selected){
+
+    state.selected={
+      id:id,
+      service:"Demo request",
+      clientName:"Demo Client",
+      date:"Today",
+      time:"15:00",
+      area:"Gaborone CBD",
+      amount:"250",
+      details:"Demo request",
+      interested:[]
+    };
+
+  }
+
+  state.screen="request";
+
+  render();
+
+}
+
+function requestDetailScreen(){
+
+  const r=state.selected;
+
+  if(!r){
+
+    return `
+      <div class="card">
+        Request not found.
+      </div>
+    `;
+
+  }
+
+  const client=
+    state.user.role==="client";
+
+  const already=
+    (r.interested||[])
+      .includes(state.user.id);
+
+  return `
+
+  <div class="card">
+
+    <button
+      class="back"
+      onclick="go('requests')"
+    >
+      ← Back
+    </button>
+
+    <h2>
+      ${escapeHtml(r.service)}
+    </h2>
+
+    <div class="row">
+
+      <div class="avatar">
+        ${
+          (r.clientName||"C")
+          .charAt(0)
+          .toUpperCase()
+        }
+      </div>
+
+      <div>
+
+        <strong>
+          ${escapeHtml(r.clientName||"Client")}
+        </strong>
+
+        <div class="small muted">
+          Client
+        </div>
+
+      </div>
+
+    </div>
+
+    <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+
+    <p>
+      <strong>Date:</strong>
+      ${escapeHtml(r.date)}
+    </p>
+
+    <p>
+      <strong>Time:</strong>
+      ${escapeHtml(r.time)}
+    </p>
+
+    <p>
+      <strong>Area:</strong>
+      ${escapeHtml(r.area)}
+    </p>
+
+    <p>
+      <strong>Proposed amount:</strong>
+      ${
+        r.amount
+        ?
+        "P"+escapeHtml(r.amount)
+        :
+        "Negotiable"
+      }
+    </p>
+
+    <p>
+      <strong>Details:</strong><br>
+      <span class="muted">
+        ${escapeHtml(r.details||"No additional details.")}
+      </span>
+    </p>
+
+    ${
+      client
+      ?
+      `
+      <div class="card" style="background:#f9fafb">
+
+        <strong>
+          Interested providers
+        </strong>
+
+        <p class="small muted">
+          Providers who show interest will appear here.
+        </p>
+
+        <div class="small">
+          ${
+            (r.interested||[]).length
+            ?
+            r.interested.length+
+            " provider(s) interested"
+            :
+            "No providers yet."
+          }
+        </div>
+
+      </div>
+      `
+      :
+      `
+      <button
+        class="action"
+        onclick="showInterest()"
+        ${already?"disabled":""}
+      >
+        ${
+          already
+          ?
+          "Interest sent"
+          :
+          "I'm interested"
+        }
+      </button>
+      `
+    }
+
+  </div>
+
+  <div class="card">
+
+    <strong>
+      Safety
+    </strong>
+
+    <p class="small muted">
+      Keep communication lawful and respectful.
+      Meet in an appropriate public place where
+      possible. Exact live location sharing should
+      only happen during an active session with
+      consent.
+    </p>
+
+  </div>
+
+  `;
+
+}
+
+function showInterest(){
+
+  const r=state.selected;
+
+  if(!r){
+    return;
+  }
+
+  if(!r.interested){
+    r.interested=[];
+  }
+
+  if(!r.interested.includes(state.user.id)){
+
+    r.interested.push(state.user.id);
+
+  }
+
+  save();
+
+  toast("Interest sent to client");
+
+  render();
+
+}
+
+function mapScreen(){
+
+  return `
+
+  <div class="card">
+
+    <div class="row">
+
+      <div class="grow">
+
+        <h2 style="margin:0">
+          Live location
+        </h2>
+
+        <div class="small muted">
+          Consent-based session sharing
+        </div>
+
+      </div>
+
+      <span class="status">
+        PRIVATE
+      </span>
+
+    </div>
+
+    <div class="map" style="margin-top:16px">
+
+      <div class="pin client"></div>
+
+      <div class="pin provider"></div>
+
+    </div>
+
+    <div class="legend">
+
+      <span>
+        <i
+          class="dot"
+          style="background:#111827"
+        ></i>
+        Client
+      </span>
+
+      <span>
+        <i
+          class="dot"
+          style="background:#2563eb"
+        ></i>
+        Provider
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <h3 style="margin-top:0">
+      Share my location
+    </h3>
+
+    <p class="small muted">
+      Your browser will ask for permission.
+      Your location is only stored in this
+      session on this device.
+    </p>
+
+    <button
+      class="action"
+      onclick="shareLocation()"
+    >
+      Share my current location
+    </button>
+
+    ${
+      state.location
+      ?
+      `
+      <p class="small" style="margin-top:12px">
+
+        ✓ Location available
+
+        <br>
+
+        Latitude:
+        ${state.location.lat.toFixed(5)}
+
+        <br>
+
+        Longitude:
+        ${state.location.lng.toFixed(5)}
+
+      </p>
+      `
+      :
+      ""
+    }
+
+  </div>
+
+  `;
+
+}
+
+function shareLocation(){
+
+  if(!navigator.geolocation){
+
+    toast(
+      "Location is not supported on this device."
+    );
+
+    return;
+
+  }
+
+  navigator.geolocation.getCurrentPosition(
+
+    position=>{
+
+      state.location={
+        lat:position.coords.latitude,
+        lng:position.coords.longitude,
+        timestamp:Date.now()
+      };
+
+      toast("Location available for this session");
+
+      render();
+
+    },
+
+    error=>{
+
+      toast(
+        "Location permission was not granted."
+      );
+
+    },
+
+    {
+      enableHighAccuracy:true,
+      timeout:10000,
+      maximumAge:0
+    }
+
+  );
+
+}
+
+function profileScreen(){
+
+  const u=state.user;
+
+  return `
+
+  <div class="card">
+
+    <div class="row">
+
+      <div class="avatar">
+
+        ${
+          (u.name||"U")
+          .charAt(0)
+          .toUpperCase()
+        }
+
+      </div>
+
+      <div>
+
+        <h2 style="margin:0">
+          ${escapeHtml(u.name)}
+        </h2>
+
+        <div class="small muted">
+          ${
+            u.role==="client"
+            ?
+            "Client"
+            :
+            "Provider"
+          }
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <p>
+      <strong>Phone</strong>
+      <br>
+      <span class="muted">
+        ${escapeHtml(u.phone)}
+      </span>
+    </p>
+
+    <p>
+      <strong>Account type</strong>
+      <br>
+      <span class="muted">
+        ${
+          u.role==="client"
+          ?
+          "Client"
+          :
+          "Provider"
+        }
+      </span>
+    </p>
+
+  </div>
+
+  <div class="card">
+
+    <h3 style="margin-top:0">
+      Safety & privacy
+    </h3>
+
+    <p class="small muted">
+      Do not publish your exact home address or
+      private location. Only share live location
+      with another user when you have chosen to
+      meet and the session is active.
+    </p>
+
+  </div>
+
+  <button
+    class="action secondary"
+    onclick="logout()"
+  >
+    Log out
+  </button>
+
+  `;
+
+}
+
+function logout(){
+
+  localStorage.removeItem("cb_token");
+
+  state.user=null;
+  state.screen="auth";
+
+  toast("Logged out");
+
+  render();
+
+}
+
+function escapeHtml(value){
+
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+boot();
+
+boot();
+
+/*
+  COME BY FRONTEND
+  Authentication:
+    POST /api/auth/register
+    POST /api/auth/login
+    GET  /api/auth/me
+
+  Current version:
+    - Client / Provider accounts
+    - Login / Sign up
+    - Persistent sessions
+    - Requests
+    - Provider interest
+    - Profile
+    - Location permission
+    - Mobile navigation
+
+  No in-app payments.
+  No connection fee.
+  Location sharing is consent-based.
+*/
+
+</script>
+</body>
+</html>
